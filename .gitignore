@@ -15,3 +15,8 @@ data/
 # Build files
 *.egg-info
 dist
+
+
+*-checkpoint.ipynb
+**/.ipynb_checkpoints
+**/.ipynb_checkpoints/**

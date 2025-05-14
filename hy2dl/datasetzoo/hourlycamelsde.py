@@ -138,10 +138,10 @@ class HourlyCAMELS_DE(CAMELS_DE):
         # Fill gaps in the precipitation column
         df_hourly = self._fill_precipitation_gaps(df=df_hourly)
 
-        # Load variables from CAMELS DE (daily) and resample
+        # Load variables from CAMELS DE (daily) and resample to fill gaps in hourly 
         path_daily_timeseries = Path(self.path_data) / "timeseries" / f"CAMELS_DE_hydromet_timeseries_{catch_id}.csv"
         df_resampled = pd.read_csv(path_daily_timeseries, index_col="date", parse_dates=["date"])
-        df_resampled = df_resampled.loc[:, "precipitation_mean"].resample("1h").ffill() / 24
+        df_resampled = df_resampled.loc[:, "precipitation_mean"].resample("1h").ffill() / 24  # resample hourly data from daily data
         df_resampled = df_resampled.loc[df_hourly.index.intersection(df_resampled.index)]
 
         # Create new column where gaps in hourly precipitation are filled with the daily resampled version

@@ -254,7 +254,7 @@ class BaseDataset(Dataset):
                     ]
                 # Select timesteps of interest
                 x_lstm = x_lstm[current_index : current_index + freq_info["n_steps"] * freq_info["freq_factor"], :]
-                # Process values using the frequency factor
+                # Process values using the frequency factor (by averaging)
                 x_lstm = x_lstm.reshape(freq_info["n_steps"], freq_info["freq_factor"], x_lstm.shape[1]).mean(dim=1)
                 # Add a flag if we do not have custom embeddings for the different frequencies
                 if not self.dynamic_embedding:
