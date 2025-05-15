@@ -90,7 +90,7 @@ experiment_name = "2_day_in_hourly_pred_last_24"
 # path_data = "/pfs/data6/home/ka/ka_iwu/ka_qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
 ## Haicore@KIT
-path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_294_Bayern.txt"
+path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_292_Bayern.txt"
 path_data = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
 # dynamic forcings and target

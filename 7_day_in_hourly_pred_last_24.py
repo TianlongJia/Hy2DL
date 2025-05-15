@@ -23,7 +23,7 @@
 # [2]: Gauch, M., Kratzert, F., Klotz, D., Nearing, G., Lin, J., & Hochreiter, S. (2021). Rainfall–runoff prediction at multiple timescales with a single long short-term memory network. Hydrology and Earth System Sciences, 25(4), 2045–2062. https://doi.org/10.5194/hess-25-2045-2021
 # 
 
-# In[13]:
+# In[1]:
 
 
 # Import necessary packages
@@ -49,14 +49,36 @@ from hy2dl.datasetzoo.hourlycamelsde import HourlyCAMELS_DE as Datasetclass
 from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 
+# ## Define the squeue length for each frequency of MF-LSTM
+
+# In[ ]:
+
+
+# # (1) weekly-daily-hourly resolution
+# n_month_in_weekly = 6   # the first n month in weekly resolution 
+# n_days_in_hourly = 7     # the last n days in hourly resolution, and the remaining days are in daily resolution
+
+# n_steps_in_weekly = n_month_in_weekly * 4
+# freq_factor_in_weekly = 24 * 7
+
+# n_steps_in_hourly = n_days_in_hourly * 24
+# freq_factor_in_hourly = 1
+
+# n_steps_in_daily = 365 - (n_month_in_weekly * 4 * 7) - n_days_in_hourly
+# freq_factor_in_daily = 24
+
+# print("1W: n_steps: ", n_steps_in_weekly, " freq_factor: ", freq_factor_in_weekly)
+# print("1D: n_steps: ", n_steps_in_daily, " freq_factor: ", freq_factor_in_daily)
+# print("1h: n_steps: ", n_steps_in_hourly, " freq_factor: ", freq_factor_in_hourly)
+
 
 # ## 1. Initialize information
 
-# In[15]:
+# In[ ]:
 
 
 # Define experiment name
-experiment_name = "1_day_in_hourly_pred_last_24"
+experiment_name = "7_day_in_hourly_pred_last_24"
 
 # paths to access the information
 ## My PC
@@ -124,12 +146,12 @@ static_input = [
     "low_prec_dur",
 ]
 
-# # time periods (15:3:5)
+# # # time periods (15:3:5)
 training_period = ["2001-01-01 01:00:00", "2015-12-31 23:00:00"]
 validation_period = ["2016-01-01 01:00:00", "2018-12-31 23:00:00"]
 testing_period = ["2019-01-01 01:00:00", "2023-12-31 23:00:00"]
 
-# # # time periods (for short test)
+# # time periods (for short test)
 # training_period = ["2001-01-01 01:00:00", "2005-12-31 23:00:00"]
 # validation_period = ["2016-01-01 01:00:00", "2018-12-31 23:00:00"]
 # testing_period = ["2019-01-01 01:00:00", "2023-12-31 23:00:00"]
@@ -145,11 +167,11 @@ model_configuration = {
            "freq_factor": 168,  # 24*7 hours in a week
         },
         "1D": {
-           "n_steps": 196,  # ~2 months (197 - 1 days)
+           "n_steps": 190,  # ~2 months (197 - 1 days)
            "freq_factor": 24,  # 24 hours in a day
         },
         "1h": {
-           "n_steps": 1 * 24,  # 1 days of hourly data
+           "n_steps": 168,  # 1 days of hourly data
            "freq_factor": 1
         }
         # "1D": {
@@ -182,7 +204,7 @@ seed = 110
 
 # ## 2. Calculate additional information necessary for the model
 
-# In[16]:
+# In[3]:
 
 
 # Create folder to store the results
@@ -286,7 +308,7 @@ training_dataset.calculate_global_statistics(path_save_scaler=path_save_folder)
 training_dataset.standardize_data()
 
 
-# In[8]:
+# In[ ]:
 
 
 # Dataloader training
@@ -310,7 +332,7 @@ for key, value in next(iter(train_loader)).items():
 
 # ## 4. Create dataset for validation
 
-# In[9]:
+# In[ ]:
 
 
 # In evaluation (validation and testing) we will create an individual dataset per basin. This will give us more 
