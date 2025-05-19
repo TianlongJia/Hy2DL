@@ -78,20 +78,20 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 
 # Define experiment name
-experiment_name = "1_day_in_hourly_pred_last_24_(2)"
+experiment_name = "1_day_train_and_test"
 
 # paths to access the information
 ## My PC
-# path_entities = r"D:\Research\Projects\Hy2DL\data\basin_id\basins_camels_de_hourly_5.txt"
+# path_entities = r"D:\Research\Projects\Hy2DL\data\basin_id\basins_camels_de_hourly_292_Bayern.txt"
 # path_data = r"D:\Research\Projects\Hy2DL\data\CAMELS_DE"
 
 ## BwCluster3.0
-# path_entities = "/pfs/data6/home/ka/ka_iwu/ka_qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_5.txt"
-# path_data = "/pfs/data6/home/ka/ka_iwu/ka_qa8171/Project/Hy2DL/data/CAMELS_DE/"
+path_entities = "/pfs/data6/home/ka/ka_iwu/ka_qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_292_Bayern.txt"
+path_data = "/pfs/data6/home/ka/ka_iwu/ka_qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
 ## Haicore@KIT
-path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_292_Bayern.txt"
-path_data = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/CAMELS_DE/"
+# path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_292_Bayern.txt"
+# path_data = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
 # dynamic forcings and target
 dynamic_input = {
