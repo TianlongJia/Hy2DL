@@ -1,6 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name="train_and_test"
 #SBATCH --ntasks=1
+#SBATCH --output=test.out
+#SBATCH --error=test.error
 #SBATCH --time=72:00:00
 #SBATCH --partition=gpu_h100
 #SBATCH --mem=760000
