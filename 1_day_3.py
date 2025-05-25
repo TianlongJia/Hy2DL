@@ -531,7 +531,9 @@ model = modelclass(model_configuration=model_configuration).to(device)
 model.load_state_dict(torch.load(path_save_folder + "/best_model", map_location=device))
 
 test_result_save_path = os.path.join(path_save_folder, "test_results")
-
+if not os.path.exists(test_result_save_path):
+    os.makedirs(test_result_save_path)
+    
 # We can read the training scaler or read a previously stored one
 scaler = training_dataset.scaler
 # with open(path_save_folder + "/scaler.pickle", "rb") as file:
