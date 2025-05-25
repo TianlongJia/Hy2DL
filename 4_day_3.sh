@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name="1_day_in_hourly"
+#SBATCH --job-name="4_day_in_hourly"
 #SBATCH --ntasks=1
 #SBATCH --time=72:00:00
 #SBATCH --partition=normal
@@ -10,4 +10,4 @@
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.9/bin/activate
 
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/1_day_train_and_test.py
+python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/4_day_3.py

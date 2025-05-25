@@ -78,7 +78,7 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 
 # Define experiment name
-experiment_name = "1_day_train_and_test"
+experiment_name = "2_day"
 # experiment_name = "test"
 
 # paths to access the information
@@ -169,11 +169,11 @@ model_configuration = {
            "freq_factor": 168,  # 24*7 hours in a week
         },
         "1D": {
-           "n_steps": 196,  # ~2 months (197 - 1 days)
+           "n_steps": 195,  # ~2 months (197 - 1 days)
            "freq_factor": 24,  # 24 hours in a day
         },
         "1h": {
-           "n_steps": 24,  # 1 days of hourly data
+           "n_steps": 48,  # 1 days of hourly data
            "freq_factor": 1
         }
         # "1D": {
@@ -201,7 +201,7 @@ model_configuration = {
 running_device = "gpu"  # cpu or gpu
 
 # define random seed
-seed = 110
+seed = 120
 
 
 # ## 2. Calculate additional information necessary for the model
@@ -616,70 +616,70 @@ with open(test_result_save_path + "/test_results.pickle", "wb") as f:
 # In[ ]:
 
 
-# Loss testing
-loss_testing = nse(df_results=test_results, average=False)
-df_NSE = pd.DataFrame(data={"basin_id": test_results.keys(), "NSE": np.round(loss_testing, 3)})
-df_NSE = df_NSE.set_index("basin_id")
-df_NSE.to_csv(os.path.join(test_result_save_path, "NSE_testing.csv"), index=True, header=True)
-mean_nse = df_NSE["NSE"].mean()
-print(f"Mean NSE across all basins: {mean_nse:.3f}")
+# # Loss testing
+# loss_testing = nse(df_results=test_results, average=False)
+# df_NSE = pd.DataFrame(data={"basin_id": test_results.keys(), "NSE": np.round(loss_testing, 3)})
+# df_NSE = df_NSE.set_index("basin_id")
+# df_NSE.to_csv(os.path.join(test_result_save_path, "NSE_testing.csv"), index=True, header=True)
+# mean_nse = df_NSE["NSE"].mean()
+# print(f"Mean NSE across all basins: {mean_nse:.3f}")
 
 
 # In[ ]:
 
 
-# Plot the histogram
-plt.hist(df_NSE["NSE"], bins=[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
+# # Plot the histogram
+# plt.hist(df_NSE["NSE"], bins=[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
 
-# Add NSE statistics to the plot
-plt.text(
-    0.01,
-    0.8,
-    (
-        f'Mean: {"%.2f" % df_NSE["NSE"].mean():>7}\n'
-        f'Median: {"%.2f" % df_NSE["NSE"].median():>0}\n'
-        f'Max: {"%.2f" % df_NSE["NSE"].max():>9}\n'
-        f'Min: {"%.2f" % df_NSE["NSE"].min():>10}'
-    ),
-    transform=plt.gca().transAxes,
-    bbox=dict(facecolor="white", alpha=0.5),
-)
+# # Add NSE statistics to the plot
+# plt.text(
+#     0.01,
+#     0.8,
+#     (
+#         f'Mean: {"%.2f" % df_NSE["NSE"].mean():>7}\n'
+#         f'Median: {"%.2f" % df_NSE["NSE"].median():>0}\n'
+#         f'Max: {"%.2f" % df_NSE["NSE"].max():>9}\n'
+#         f'Min: {"%.2f" % df_NSE["NSE"].min():>10}'
+#     ),
+#     transform=plt.gca().transAxes,
+#     bbox=dict(facecolor="white", alpha=0.5),
+# )
 
-# Format plot
-plt.rcParams["figure.figsize"] = (20, 5)
-plt.xlabel("NSE", fontsize=12, fontweight="bold")
-plt.ylabel("Frequency", fontsize=12, fontweight="bold")
-plt.title("NSE Histogram", fontsize=16, fontweight="bold")
-plt.savefig(os.path.join(test_result_save_path, "NSE_Histogram.png"), bbox_inches="tight", pad_inches=0)
-plt.show()
+# # Format plot
+# plt.rcParams["figure.figsize"] = (20, 5)
+# plt.xlabel("NSE", fontsize=12, fontweight="bold")
+# plt.ylabel("Frequency", fontsize=12, fontweight="bold")
+# plt.title("NSE Histogram", fontsize=16, fontweight="bold")
+# plt.savefig(os.path.join(test_result_save_path, "NSE_Histogram.png"), bbox_inches="tight", pad_inches=0)
+# plt.show()
 
 
 # In[ ]:
 
 
-# Plot simulated and observed discharges
-basin_to_analyze = "DE210300"
+# # Plot simulated and observed discharges
+# basin_to_analyze = "DE210300"
 
-# colorblind friendly palette
-color_palette = {"observed": "#377eb8", "simulated": "#4daf4a"}
+# # colorblind friendly palette
+# color_palette = {"observed": "#377eb8", "simulated": "#4daf4a"}
 
-# (1) Output time window of test dataset period
-plt.plot(test_results[basin_to_analyze]["y_obs"], label="observed", color=color_palette["observed"])
-plt.plot(test_results[basin_to_analyze]["y_sim"], label="simulated", alpha=0.5, color=color_palette["simulated"])
+# # (1) Output time window of test dataset period
+# plt.plot(test_results[basin_to_analyze]["y_obs"], label="observed", color=color_palette["observed"])
+# plt.plot(test_results[basin_to_analyze]["y_sim"], label="simulated", alpha=0.5, color=color_palette["simulated"])
 
-# # (2) Output custom time window
-# start_date = "2019-01-01 01:00:00"
-# end_date = "2019-02-01 01:00:00"
-# plt.plot(test_results[basin_to_analyze]["y_obs"][start_date:end_date], label="observed", color=color_palette["observed"])
-# plt.plot(test_results[basin_to_analyze]["y_sim"][start_date:end_date], label="simulated", alpha=0.5, color=color_palette["simulated"])
+# # # (2) Output custom time window
+# # start_date = "2019-01-01 01:00:00"
+# # end_date = "2019-02-01 01:00:00"
+# # plt.plot(test_results[basin_to_analyze]["y_obs"][start_date:end_date], label="observed", color=color_palette["observed"])
+# # plt.plot(test_results[basin_to_analyze]["y_sim"][start_date:end_date], label="simulated", alpha=0.5, color=color_palette["simulated"])
 
-# Format plot
-plt.xlabel("Date", fontsize=12, fontweight="bold")
-plt.ylabel("Discharge [mm/d]", fontsize=12, fontweight="bold")
-plt.title(f"Result comparison (basin {basin_to_analyze})", fontsize=16, fontweight="bold")
-plt.tick_params(axis="both", which="major", labelsize=12)
-plt.legend(loc="upper right", fontsize=12)
-plt.savefig(os.path.join(test_result_save_path, f"Result comparison (basin {basin_to_analyze}).png"), bbox_inches="tight", pad_inches=0)
+# # Format plot
+# plt.xlabel("Date", fontsize=12, fontweight="bold")
+# plt.ylabel("Discharge [mm/d]", fontsize=12, fontweight="bold")
+# plt.title(f"Result comparison (basin {basin_to_analyze})", fontsize=16, fontweight="bold")
+# plt.tick_params(axis="both", which="major", labelsize=12)
+# plt.legend(loc="upper right", fontsize=12)
+# plt.savefig(os.path.join(test_result_save_path, f"Result comparison (basin {basin_to_analyze}).png"), bbox_inches="tight", pad_inches=0)
 
 
 # In[ ]:
