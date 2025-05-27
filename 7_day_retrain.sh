@@ -10,4 +10,4 @@
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.9/bin/activate
 
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/1_day_train_and_test_10e.py
+python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/7_day_retrain.py

@@ -23,7 +23,7 @@
 # [2]: Gauch, M., Kratzert, F., Klotz, D., Nearing, G., Lin, J., & Hochreiter, S. (2021). Rainfall–runoff prediction at multiple timescales with a single long short-term memory network. Hydrology and Earth System Sciences, 25(4), 2045–2062. https://doi.org/10.5194/hess-25-2045-2021
 # 
 
-# In[ ]:
+# In[1]:
 
 
 # Import necessary packages
@@ -74,16 +74,16 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 # ## 1. Initialize information
 
-# In[ ]:
+# In[2]:
 
 
 # Define experiment name
-experiment_name = "1_day_train_and_test"
-# experiment_name = "test"
+experiment_name = "1_day_retrain"
+# experiment_name = "testXX"
 
 # paths to access the information
 ## My PC
-# path_entities = r"D:\Research\Projects\Hy2DL\data\basin_id\basins_camels_de_hourly_5.txt"
+# path_entities = r"D:\Research\Projects\Hy2DL\data\basin_id\basins_camels_de_hourly_3.txt"
 # path_data = r"D:\Research\Projects\Hy2DL\data\CAMELS_DE"
 
 ## BwCluster3.0
@@ -154,9 +154,9 @@ validation_period = ["2016-01-01 01:00:00", "2018-12-31 23:00:00"]
 testing_period = ["2019-01-01 01:00:00", "2023-12-31 23:00:00"]
 
 # # time periods (for short test)
-# training_period = ["2001-01-01 01:00:00", "2005-12-31 23:00:00"]
+# training_period = ["2001-01-01 01:00:00", "2003-12-31 23:00:00"]
 # validation_period = ["2016-01-01 01:00:00", "2018-12-31 23:00:00"]
-# testing_period = ["2019-01-01 01:00:00", "2023-12-31 23:00:00"]
+# testing_period = ["2019-01-01 01:00:00", "2011-12-31 23:00:00"]
 
 # model configuration
 model_configuration = {
@@ -183,8 +183,10 @@ model_configuration = {
         # "1h": {"n_steps": (365 - 351) * 24,
         #        "freq_factor": 1}
     },
-    "predict_last_n": 24,            
-    "unique_prediction_blocks": True, # with predict_last_n > 1, simulations overlap and in evaluation there are multiple y_sim for each timestep -> set to true in evaluation, for training it just reduces the number of sample 
+    "predict_last_n": 24,      # "predict_last_n" for training       
+    "unique_prediction_blocks_training": False, # with predict_last_n > 1, simulations overlap and in evaluation there are multiple y_sim for each timestep -> set to true in evaluation, for training it just reduces the number of sample 
+    "predict_last_n_evaluation": 24,            
+    "unique_prediction_blocks_evaluation": True,
     "dynamic_embeddings": True,
     "hidden_size": 128,
     "batch_size_training": 256,
@@ -206,7 +208,7 @@ seed = 110
 
 # ## 2. Calculate additional information necessary for the model
 
-# In[ ]:
+# In[3]:
 
 
 # Create folder to store the results
@@ -218,7 +220,7 @@ if not os.path.exists(weights_save_path):
     os.makedirs(weights_save_path)
 
 
-# In[ ]:
+# In[4]:
 
 
 # check if model will be run in gpu or cpu and define device
@@ -229,7 +231,7 @@ elif running_device == "cpu":
     device = "cpu"
 
 
-# In[ ]:
+# In[5]:
 
 
 # include information about input size for each frequency
@@ -245,27 +247,27 @@ model_configuration["input_size_lstm"] = model_configuration["n_dynamic_channels
 if model_configuration.get("custom_freq_processing") and not model_configuration.get("dynamic_embeddings"):
     model_configuration["input_size_lstm"] = model_configuration["input_size_lstm"] + 1
 
-# If predict_last_n was not defined, we initialize it as 1
+# If predict_last_n_training was not defined, we initialize it as 1
 if not model_configuration.get("predict_last_n"):
     model_configuration["predict_last_n"] = 1
 
-# Check connection between predict_last_n and unique_prediction_blocks. If predict_last_n is larger than 1, and
-# unique_prediction_blocks is False, we change for evaluation purposes predict_last_n to 1. This avoid having
-# multiple predictions for the same time step due to the overlap of the sequences.
-if model_configuration.get("predict_last_n", 1) > 1 and not model_configuration.get("unique_prediction_blocks"):
-    print(
-        (
-            "Warning: predict_last_n > 1 and unique_prediction_blocks = False."
-            + " This creates overlapping sequences during evaluation. To avoid this, predict_last_n will be changed to"
-            + " 1 during evaluation (validation / testing). This will not affect the training process."
-        )
-    )
-    model_configuration["predict_last_n_evaluation"] = 1
-else:
-    model_configuration["predict_last_n_evaluation"] = model_configuration.get("predict_last_n", 1)
+# # Check connection between predict_last_n and unique_prediction_blocks. If predict_last_n is larger than 1, and
+# # unique_prediction_blocks is False, we change for evaluation purposes predict_last_n to 1. This avoid having
+# # multiple predictions for the same time step due to the overlap of the sequences.
+# if model_configuration.get("predict_last_n", 1) > 1 and not model_configuration.get("unique_prediction_blocks"):
+#     print(
+#         (
+#             "Warning: predict_last_n > 1 and unique_prediction_blocks = False."
+#             + " This creates overlapping sequences during evaluation. To avoid this, predict_last_n will be changed to"
+#             + " 1 during evaluation (validation / testing). This will not affect the training process."
+#         )
+#     )
+#     model_configuration["predict_last_n_evaluation"] = 1
+# else:
+#     model_configuration["predict_last_n_evaluation"] = model_configuration.get("predict_last_n", 1)
 
 
-# In[ ]:
+# In[6]:
 
 
 # save model config
@@ -306,7 +308,7 @@ training_dataset = Datasetclass(
     static_input=static_input,
     custom_freq_processing=model_configuration["custom_freq_processing"],
     dynamic_embedding=model_configuration["dynamic_embeddings"],
-    unique_prediction_blocks=model_configuration["unique_prediction_blocks"],
+    unique_prediction_blocks=model_configuration["unique_prediction_blocks_training"],
 )
 
 training_dataset.calculate_basin_std()
@@ -319,10 +321,10 @@ training_dataset.standardize_data()
 
 # # show the first training sample in details
 # print("Sample keys:", training_dataset[0].keys())
-# print("The first training sample in trainging dataset is: ", training_dataset[1])
+# print("The first training sample in trainging dataset is: ", training_dataset[2])
 
 
-# In[ ]:
+# In[9]:
 
 
 # Dataloader training
@@ -346,7 +348,7 @@ for key, value in next(iter(train_loader)).items():
 
 # ## 4. Create dataset for validation
 
-# In[ ]:
+# In[10]:
 
 
 # In evaluation (validation and testing) we will create an individual dataset per basin. This will give us more 
@@ -367,12 +369,19 @@ for entity in entities_ids:
         static_input=static_input,
         custom_freq_processing=model_configuration["custom_freq_processing"],
         dynamic_embedding=model_configuration["dynamic_embeddings"],
-        unique_prediction_blocks=model_configuration["unique_prediction_blocks"],
+        unique_prediction_blocks=model_configuration["unique_prediction_blocks_evaluation"],
     )
 
     dataset.scaler = training_dataset.scaler
     dataset.standardize_data(standardize_output=False)
     validation_dataset[entity] = dataset
+
+
+# In[ ]:
+
+
+# dataset = validation_dataset[entities_ids[0]]
+# print("the first sample of val dataset is: ", dataset[0])
 
 
 # ## 5. Train Model
@@ -533,7 +542,7 @@ model.load_state_dict(torch.load(path_save_folder + "/best_model", map_location=
 test_result_save_path = os.path.join(path_save_folder, "test_results")
 if not os.path.exists(test_result_save_path):
     os.makedirs(test_result_save_path)
-    
+
 # We can read the training scaler or read a previously stored one
 scaler = training_dataset.scaler
 # with open(path_save_folder + "/scaler.pickle", "rb") as file:
@@ -561,7 +570,7 @@ for entity in entities_ids:
         static_input=static_input,
         custom_freq_processing=model_configuration["custom_freq_processing"],
         dynamic_embedding=model_configuration["dynamic_embeddings"],
-        unique_prediction_blocks=model_configuration["unique_prediction_blocks"]
+        unique_prediction_blocks=model_configuration["unique_prediction_blocks_evaluation"]
     )
 
     dataset.scaler = scaler
@@ -569,7 +578,7 @@ for entity in entities_ids:
     testing_dataset[entity] = dataset
 
 
-# In[ ]:
+# In[15]:
 
 
 model.eval()
@@ -618,13 +627,19 @@ with open(test_result_save_path + "/test_results.pickle", "wb") as f:
 # In[ ]:
 
 
+print("***************  Evaluation process begin  ****************")
+
 # Loss testing
 loss_testing = nse(df_results=test_results, average=False)
 df_NSE = pd.DataFrame(data={"basin_id": test_results.keys(), "NSE": np.round(loss_testing, 3)})
 df_NSE = df_NSE.set_index("basin_id")
+
+# Save the NSE for each basin in a csv file
 df_NSE.to_csv(os.path.join(test_result_save_path, "NSE_testing.csv"), index=True, header=True)
 mean_nse = df_NSE["NSE"].mean()
+median_nse = df_NSE["NSE"].median()
 print(f"Mean NSE across all basins: {mean_nse:.3f}")
+print(f"Median  NSE across all basins: {median_nse:.3f}")
 
 
 # In[ ]:
@@ -653,35 +668,35 @@ plt.xlabel("NSE", fontsize=12, fontweight="bold")
 plt.ylabel("Frequency", fontsize=12, fontweight="bold")
 plt.title("NSE Histogram", fontsize=16, fontweight="bold")
 plt.savefig(os.path.join(test_result_save_path, "NSE_Histogram.png"), bbox_inches="tight", pad_inches=0)
-plt.show()
+# plt.show()
 
 
 # In[ ]:
 
 
-# Plot simulated and observed discharges
-basin_to_analyze = "DE210300"
+# # Plot simulated and observed discharges
+# basin_to_analyze = "DE210300"
 
-# colorblind friendly palette
-color_palette = {"observed": "#377eb8", "simulated": "#4daf4a"}
+# # colorblind friendly palette
+# color_palette = {"observed": "#377eb8", "simulated": "#4daf4a"}
 
-# (1) Output time window of test dataset period
-plt.plot(test_results[basin_to_analyze]["y_obs"], label="observed", color=color_palette["observed"])
-plt.plot(test_results[basin_to_analyze]["y_sim"], label="simulated", alpha=0.5, color=color_palette["simulated"])
+# # (1) Output time window of test dataset period
+# plt.plot(test_results[basin_to_analyze]["y_obs"], label="observed", color=color_palette["observed"])
+# plt.plot(test_results[basin_to_analyze]["y_sim"], label="simulated", alpha=0.5, color=color_palette["simulated"])
 
-# # (2) Output custom time window
-# start_date = "2019-01-01 01:00:00"
-# end_date = "2019-02-01 01:00:00"
-# plt.plot(test_results[basin_to_analyze]["y_obs"][start_date:end_date], label="observed", color=color_palette["observed"])
-# plt.plot(test_results[basin_to_analyze]["y_sim"][start_date:end_date], label="simulated", alpha=0.5, color=color_palette["simulated"])
+# # # (2) Output custom time window
+# # start_date = "2019-01-01 01:00:00"
+# # end_date = "2019-02-01 01:00:00"
+# # plt.plot(test_results[basin_to_analyze]["y_obs"][start_date:end_date], label="observed", color=color_palette["observed"])
+# # plt.plot(test_results[basin_to_analyze]["y_sim"][start_date:end_date], label="simulated", alpha=0.5, color=color_palette["simulated"])
 
-# Format plot
-plt.xlabel("Date", fontsize=12, fontweight="bold")
-plt.ylabel("Discharge [mm/d]", fontsize=12, fontweight="bold")
-plt.title(f"Result comparison (basin {basin_to_analyze})", fontsize=16, fontweight="bold")
-plt.tick_params(axis="both", which="major", labelsize=12)
-plt.legend(loc="upper right", fontsize=12)
-plt.savefig(os.path.join(test_result_save_path, f"Result comparison (basin {basin_to_analyze}).png"), bbox_inches="tight", pad_inches=0)
+# # Format plot
+# plt.xlabel("Date", fontsize=12, fontweight="bold")
+# plt.ylabel("Discharge [mm/d]", fontsize=12, fontweight="bold")
+# plt.title(f"Result comparison (basin {basin_to_analyze})", fontsize=16, fontweight="bold")
+# plt.tick_params(axis="both", which="major", labelsize=12)
+# plt.legend(loc="upper right", fontsize=12)
+# plt.savefig(os.path.join(test_result_save_path, f"Result comparison (basin {basin_to_analyze}).png"), bbox_inches="tight", pad_inches=0)
 
 
 # In[ ]:

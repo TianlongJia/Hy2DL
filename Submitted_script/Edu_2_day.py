@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Rainfall-runoff model using MF-LSTM
+# ## Notebook to create a rainfall-runoff model using data driven methods
 
 # **General Description**
 # 
@@ -31,8 +31,6 @@ import pickle
 import random
 import sys
 import time
-import json
-import os
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -40,7 +38,7 @@ import pandas as pd
 import torch
 from torch.utils.data import DataLoader
 
-# sys.path.append("..")
+sys.path.append("..")
 # Import classes and functions from other files
 from hy2dl.aux_functions.functions_evaluation import nse
 from hy2dl.aux_functions.functions_training import nse_basin_averaged
@@ -49,41 +47,17 @@ from hy2dl.datasetzoo.hourlycamelsde import HourlyCAMELS_DE as Datasetclass
 from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 
-# ## Define the squeue length for each frequency of MF-LSTM
+# Part 1. Initialize information
 
 # In[ ]:
 
 
-# # (1) weekly-daily-hourly resolution
-# n_month_in_weekly = 6   # the first n month in weekly resolution 
-# n_days_in_hourly = 1     # the last n days in hourly resolution, and the remaining days are in daily resolution
-
-# n_steps_in_weekly = n_month_in_weekly * 4
-# freq_factor_in_weekly = 24 * 7
-
-# n_steps_in_hourly = n_days_in_hourly * 24
-# freq_factor_in_hourly = 1
-
-# n_steps_in_daily = 365 - (n_month_in_weekly * 4 * 7) - n_days_in_hourly
-# freq_factor_in_daily = 24
-
-# print("1W: n_steps: ", n_steps_in_weekly, " freq_factor: ", freq_factor_in_weekly)
-# print("1D: n_steps: ", n_steps_in_daily, " freq_factor: ", freq_factor_in_daily)
-# print("1h: n_steps: ", n_steps_in_hourly, " freq_factor: ", freq_factor_in_hourly)
-
-
-# ## 1. Initialize information
-
-# In[ ]:
-
-
-# Define experiment name
-experiment_name = "14_day"
-# experiment_name = "test"
+# Define experiment nae
+experiment_name = "Edu_2_day"
 
 # paths to access the information
 ## My PC
-# path_entities = r"D:\Research\Projects\Hy2DL\data\basin_id\basins_camels_de_hourly_5.txt"
+# path_entities = r"D:\Research\Projects\Hy2DL\data\basin_id\basins_camels_de_hourly_3.txt"
 # path_data = r"D:\Research\Projects\Hy2DL\data\CAMELS_DE"
 
 ## BwCluster3.0
@@ -92,8 +66,38 @@ experiment_name = "14_day"
 
 ## Haicore@KIT
 path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_292_Bayern.txt"
-# path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_5.txt"
+# path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_3.txt"
 path_data = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/CAMELS_DE/"
+
+# # dynamic forcings and target
+# dynamic_input = {
+#     "hc_1D": [
+#         "precipitation_resampled",
+#         "air_temperature_mean_mean",
+#         "global_shortwave_radiation_mean",
+#         "air_pressure_surface_mean",
+#         "relative_humidity_mean",
+#         "wind_speed_mean",
+#         "discharge_spec_obs"
+#     ],
+#     "hc_1h": [
+#         "precipitation_sum_mean",
+#         "air_temperature_mean_mean",
+#         "global_shortwave_radiation_mean",
+#         "air_pressure_surface_mean",
+#         "relative_humidity_mean",
+#         "wind_speed_mean",
+#         "discharge_spec_obs"
+#     ],
+#     "fc_1h": [
+#         "precipitation_sum_mean",
+#         "air_temperature_mean_mean",
+#         "global_shortwave_radiation_mean",
+#         "air_pressure_surface_mean",
+#         "relative_humidity_mean",
+#         "wind_speed_mean",
+#     ],
+# }
 
 # dynamic forcings and target
 dynamic_input = {
@@ -145,18 +149,17 @@ static_input = [
     "high_prec_freq",
     "low_prec_freq",
     "high_prec_dur",
-    "low_prec_dur",
-]
+    "low_prec_dur"]
 
-# # # time periods (15:3:5)
+# time periods
 training_period = ["2001-01-01 01:00:00", "2015-12-31 23:00:00"]
 validation_period = ["2016-01-01 01:00:00", "2018-12-31 23:00:00"]
 testing_period = ["2019-01-01 01:00:00", "2023-12-31 23:00:00"]
 
 # # time periods (for short test)
-# training_period = ["2001-01-01 01:00:00", "2005-12-31 23:00:00"]
+# training_period = ["2001-01-01 01:00:00", "2003-12-31 23:00:00"]
 # validation_period = ["2016-01-01 01:00:00", "2018-12-31 23:00:00"]
-# testing_period = ["2019-01-01 01:00:00", "2023-12-31 23:00:00"]
+# testing_period = ["2019-01-01 01:00:00", "2011-12-31 23:00:00"]
 
 # model configuration
 model_configuration = {
@@ -169,31 +172,28 @@ model_configuration = {
            "freq_factor": 168,  # 24*7 hours in a week
         },
         "1D": {
-           "n_steps": 183,  # ~2 months (197 - 1 days)
+           "n_steps": 195,  # ~2 months (197 - 1 days)
            "freq_factor": 24,  # 24 hours in a day
         },
         "1h": {
-           "n_steps": 336,  # 1 days of hourly data
+           "n_steps": 48,  # 1 days of hourly data
            "freq_factor": 1
         }
-        # "1D": {
-        #     "n_steps": 351,
-        #     "freq_factor": 24,
-        # },
-        # "1h": {"n_steps": (365 - 351) * 24,
-        #        "freq_factor": 1}
+        # "hc_1D": {"n_steps": 351,"freq_factor": 24,},
+        # "hc_1h": {"n_steps": (365 - 352) * 24, "freq_factor": 1},
+        # "fc_1h": {"n_steps": 24, "freq_factor": 1},
     },
-    "predict_last_n": 24,            
-    "unique_prediction_blocks": True, # with predict_last_n > 1, simulations overlap and in evaluation there are multiple y_sim for each timestep -> set to true in evaluation, for training it just reduces the number of sample 
+    "predict_last_n": 24,
+    "unique_prediction_blocks": True,
     "dynamic_embeddings": True,
     "hidden_size": 128,
     "batch_size_training": 256,
     "batch_size_evaluation": 1024,
-    "no_of_epochs": 30, # 30
+    "no_of_epochs": 30,
     "dropout_rate": 0.4,
-    "learning_rate": {1: 5e-4, 2: 1e-4, 3: 1e-5},  # {1: 5e-4, 10: 1e-4, 25: 1e-5}
+    "learning_rate": {1: 5e-4, 10: 1e-4, 25: 1e-5},
     "set_forget_gate": 3,
-    "validate_every": 1, # 5
+    "validate_every": 1,
     "validate_n_random_basins": -1,
 }
 
@@ -201,10 +201,13 @@ model_configuration = {
 running_device = "gpu"  # cpu or gpu
 
 # define random seed
-seed = 130
+seed = 110
+
+# colorblind friendly palette
+color_palette = {"observed": "#377eb8","simulated": "#4daf4a"}
 
 
-# ## 2. Calculate additional information necessary for the model
+# Part 2. Calculate additional information necessary to run the model
 
 # In[ ]:
 
@@ -212,10 +215,6 @@ seed = 130
 # Create folder to store the results
 path_save_folder = "./results/" + experiment_name + "_seed_" + str(seed)
 create_folder(folder_path=path_save_folder)
-
-weights_save_path = os.path.join(path_save_folder, "weights")
-if not os.path.exists(weights_save_path):
-    os.makedirs(weights_save_path)
 
 
 # In[ ]:
@@ -268,6 +267,8 @@ else:
 # In[ ]:
 
 
+import json
+
 # save model config
 model_config = {
     "name": experiment_name,
@@ -288,7 +289,7 @@ with open(path_save_folder + "/model_config.json", "w") as f:
     json.dump(model_config, f, indent=4)
 
 
-# ## 3. Class to create the dataset object used in training
+# Part 3. Class to create the dataset object used in training
 
 # In[ ]:
 
@@ -306,20 +307,12 @@ training_dataset = Datasetclass(
     static_input=static_input,
     custom_freq_processing=model_configuration["custom_freq_processing"],
     dynamic_embedding=model_configuration["dynamic_embeddings"],
-    unique_prediction_blocks=model_configuration["unique_prediction_blocks"],
+    unique_prediction_blocks=model_configuration["unique_prediction_blocks"]
 )
 
 training_dataset.calculate_basin_std()
 training_dataset.calculate_global_statistics(path_save_scaler=path_save_folder)
 training_dataset.standardize_data()
-
-
-# In[ ]:
-
-
-# # show the first training sample in details
-# print("Sample keys:", training_dataset[0].keys())
-# print("The first training sample in trainging dataset is: ", training_dataset[1])
 
 
 # In[ ]:
@@ -344,7 +337,7 @@ for key, value in next(iter(train_loader)).items():
     print(f"{key:<12} | {str(value.shape):<20}")
 
 
-# ## 4. Create dataset for validation
+# Part 4. Create dataset for validation
 
 # In[ ]:
 
@@ -367,7 +360,7 @@ for entity in entities_ids:
         static_input=static_input,
         custom_freq_processing=model_configuration["custom_freq_processing"],
         dynamic_embedding=model_configuration["dynamic_embeddings"],
-        unique_prediction_blocks=model_configuration["unique_prediction_blocks"],
+        unique_prediction_blocks=model_configuration["unique_prediction_blocks"]
     )
 
     dataset.scaler = training_dataset.scaler
@@ -375,7 +368,7 @@ for entity in entities_ids:
     validation_dataset[entity] = dataset
 
 
-# ## 5. Train Model
+# Part 5. Train Model
 
 # In[ ]:
 
@@ -385,17 +378,12 @@ set_random_seed(seed=seed)
 model = modelclass(model_configuration=model_configuration).to(device)
 
 # optimizer
-optimizer = Optimizer(model=model, model_configuration=model_configuration)
+optimizer = Optimizer(model=model, model_configuration=model_configuration) 
 
 # set forget gate to 3 to ensure that the model is capable to learn long term dependencies
 model.lstm.bias_hh_l0.data[model_configuration["hidden_size"] : 2 * model_configuration["hidden_size"]] = (
     model_configuration["set_forget_gate"]
 )
-
-# Define the initail val_nse for selecting the best epoch during validation
-best_val_nse = float("-inf")  # Best NSE so far
-best_epoch = -1
-best_model_state = None
 
 training_time = time.time()
 # Loop through the different epochs
@@ -419,7 +407,7 @@ for epoch in range(1, model_configuration["no_of_epochs"] + 1):
 
         loss.backward()  # backpropagates
 
-        optimizer.clip_grad_and_step(epoch, idx)  # clip gradients and update weights
+        optimizer.clip_grad_and_step(epoch, idx) # clip gradients and update weights
 
         total_loss.append(loss.item())
 
@@ -428,7 +416,7 @@ for epoch in range(1, model_configuration["no_of_epochs"] + 1):
         torch.cuda.empty_cache()
 
     # training report
-    report = f"Epoch: {epoch:<2} | Loss training: {'%.3f ' % (np.mean(total_loss))}"
+    report = f'Epoch: {epoch:<2} | Loss training: {"%.3f "% (np.mean(total_loss))}'
 
     # Validation -----------------------------------------------------------------------------------------------------
     if epoch % model_configuration["validate_every"] == 0:
@@ -483,57 +471,37 @@ for epoch in range(1, model_configuration["no_of_epochs"] + 1):
 
             # average loss validation
             loss_validation = nse(df_results=validation_results)
-            report += f"| NSE validation: {'%.3f ' % (loss_validation)}"
-
-            if loss_validation > best_val_nse:
-               best_val_nse = loss_validation
-               best_epoch = epoch
-               best_model_state = model.state_dict()  # save weights in memory
-
+            report += f'| NSE validation: {"%.3f "% (loss_validation)}'
 
     # save model after every epoch
-    weight_path = weights_save_path + "/epoch_" + str(epoch)
-    torch.save(model.state_dict(), weight_path)
+    path_saved_model = path_save_folder + "/epoch_" + str(epoch)
+    torch.save(model.state_dict(), path_saved_model)
 
     # print epoch report
     report += (
-        f"| Epoch time: {'%.1f ' % (time.time() - epoch_start_time)} s | "
-        f"LR:{'%.5f ' % (optimizer.optimizer.param_groups[0]['lr'])}"
+        f'| Epoch time: {"%.1f "% (time.time()-epoch_start_time)} s | '
+        f'LR:{"%.5f "% (optimizer.optimizer.param_groups[0]["lr"])}'
     )
     print(report)
     write_report(file_path=path_save_folder + "/run_progress.txt", text=report)
     # modify learning rate
     optimizer.update_optimizer_lr(epoch=epoch)
 
-# Save best model again under a final, clear filename
-if best_model_state is not None:
-    torch.save(best_model_state, path_save_folder + "/best_model")
-    best_epoch_report = f"Best validation NSE: {best_val_nse:.3f} at epoch {best_epoch}"
-else:
-    best_epoch_report = "No best model was selected (best_model_state is None)."
-
 # print final report
-report = (
-    f"{best_epoch_report}\n"
-    f"Total training time: {'%.1f ' % (time.time() - training_time)} s"
-)
+report = f'Total training time: {"%.1f "% (time.time()-training_time)} s'
 print(report)
 write_report(file_path=path_save_folder + "/run_progress.txt", text=report)
 
 
-# ## 6. Test LSTM
+# Part 6. Test LSTM
 
 # In[ ]:
 
 
 # In case I already trained an LSTM I can re-construct the model
 model = modelclass(model_configuration=model_configuration).to(device)
-model.load_state_dict(torch.load(path_save_folder + "/best_model", map_location=device))
+model.load_state_dict(torch.load(path_save_folder + "/epoch_30", map_location=device))
 
-test_result_save_path = os.path.join(path_save_folder, "test_results")
-if not os.path.exists(test_result_save_path):
-    os.makedirs(test_result_save_path)
-    
 # We can read the training scaler or read a previously stored one
 scaler = training_dataset.scaler
 # with open(path_save_folder + "/scaler.pickle", "rb") as file:
@@ -609,50 +577,55 @@ with torch.no_grad():
         test_results[basin] = df_ts
 
 # Save results as a pickle file
-with open(test_result_save_path + "/test_results.pickle", "wb") as f:
+with open(path_save_folder + "/test_results.pickle", "wb") as f:
     pickle.dump(test_results, f)
 
 
-# ## 7. Initial analysis
+# Part 7. Initial analysis
 
 # In[ ]:
 
 
-# # Loss testing
-# loss_testing = nse(df_results=test_results, average=False)
-# df_NSE = pd.DataFrame(data={"basin_id": test_results.keys(), "NSE": np.round(loss_testing, 3)})
-# df_NSE = df_NSE.set_index("basin_id")
-# df_NSE.to_csv(os.path.join(test_result_save_path, "NSE_testing.csv"), index=True, header=True)
-# mean_nse = df_NSE["NSE"].mean()
-# print(f"Mean NSE across all basins: {mean_nse:.3f}")
+print("***************  Evaluation process begin  ****************")
+
+# Loss testing
+loss_testing = nse(df_results=test_results, average=False)
+df_NSE = pd.DataFrame(data={"basin_id": testing_dataset.keys(), "NSE": np.round(loss_testing, 3)})
+df_NSE = df_NSE.set_index("basin_id")
+df_NSE.to_csv(path_save_folder + "/NSE_testing.csv", index=True, header=True)
+
+mean_nse = df_NSE["NSE"].mean()
+median_nse = df_NSE["NSE"].median()
+print(f"Mean NSE across all basins: {mean_nse:.3f}")
+print(f"Median  NSE across all basins: {median_nse:.3f}")
 
 
 # In[ ]:
 
 
-# # Plot the histogram
-# plt.hist(df_NSE["NSE"], bins=[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
+# Plot the histogram
+plt.hist(df_NSE["NSE"], bins=[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1])
 
-# # Add NSE statistics to the plot
-# plt.text(
-#     0.01,
-#     0.8,
-#     (
-#         f'Mean: {"%.2f" % df_NSE["NSE"].mean():>7}\n'
-#         f'Median: {"%.2f" % df_NSE["NSE"].median():>0}\n'
-#         f'Max: {"%.2f" % df_NSE["NSE"].max():>9}\n'
-#         f'Min: {"%.2f" % df_NSE["NSE"].min():>10}'
-#     ),
-#     transform=plt.gca().transAxes,
-#     bbox=dict(facecolor="white", alpha=0.5),
-# )
+# Add NSE statistics to the plot
+plt.text(
+    0.01,
+    0.8,
+    (
+        f'Mean: {"%.2f" % df_NSE["NSE"].mean():>7}\n'
+        f'Median: {"%.2f" % df_NSE["NSE"].median():>0}\n'
+        f'Max: {"%.2f" % df_NSE["NSE"].max():>9}\n'
+        f'Min: {"%.2f" % df_NSE["NSE"].min():>10}'
+    ),
+    transform=plt.gca().transAxes,
+    bbox=dict(facecolor="white", alpha=0.5),
+)
 
-# # Format plot
-# plt.rcParams["figure.figsize"] = (20, 5)
-# plt.xlabel("NSE", fontsize=12, fontweight="bold")
-# plt.ylabel("Frequency", fontsize=12, fontweight="bold")
-# plt.title("NSE Histogram", fontsize=16, fontweight="bold")
-# plt.savefig(os.path.join(test_result_save_path, "NSE_Histogram.png"), bbox_inches="tight", pad_inches=0)
+# Format plot
+plt.rcParams["figure.figsize"] = (20, 5)
+plt.xlabel("NSE", fontsize=12, fontweight="bold")
+plt.ylabel("Frequency", fontsize=12, fontweight="bold")
+plt.title("NSE Histogram", fontsize=16, fontweight="bold")
+plt.savefig(path_save_folder+"/NSE_Histogram.png", bbox_inches="tight", pad_inches=0)
 # plt.show()
 
 
@@ -660,32 +633,15 @@ with open(test_result_save_path + "/test_results.pickle", "wb") as f:
 
 
 # # Plot simulated and observed discharges
-# basin_to_analyze = "DE210300"
+# basin_to_analyze = "01022500"
 
-# # colorblind friendly palette
-# color_palette = {"observed": "#377eb8", "simulated": "#4daf4a"}
-
-# # (1) Output time window of test dataset period
 # plt.plot(test_results[basin_to_analyze]["y_obs"], label="observed", color=color_palette["observed"])
 # plt.plot(test_results[basin_to_analyze]["y_sim"], label="simulated", alpha=0.5, color=color_palette["simulated"])
-
-# # # (2) Output custom time window
-# # start_date = "2019-01-01 01:00:00"
-# # end_date = "2019-02-01 01:00:00"
-# # plt.plot(test_results[basin_to_analyze]["y_obs"][start_date:end_date], label="observed", color=color_palette["observed"])
-# # plt.plot(test_results[basin_to_analyze]["y_sim"][start_date:end_date], label="simulated", alpha=0.5, color=color_palette["simulated"])
 
 # # Format plot
 # plt.xlabel("Date", fontsize=12, fontweight="bold")
 # plt.ylabel("Discharge [mm/d]", fontsize=12, fontweight="bold")
-# plt.title(f"Result comparison (basin {basin_to_analyze})", fontsize=16, fontweight="bold")
+# plt.title("Result comparison", fontsize=16, fontweight="bold")
 # plt.tick_params(axis="both", which="major", labelsize=12)
 # plt.legend(loc="upper right", fontsize=12)
-# plt.savefig(os.path.join(test_result_save_path, f"Result comparison (basin {basin_to_analyze}).png"), bbox_inches="tight", pad_inches=0)
-
-
-# In[ ]:
-
-
-
 
