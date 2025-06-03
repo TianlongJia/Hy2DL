@@ -230,7 +230,7 @@ seed = 110
 
 
 # Create folder to store the results
-path_save_folder = "./results/pred_24_stride_1/100_basins/" + experiment_name + "_seed_" + str(seed)
+path_save_folder = "./results/pred_24_stride_24/292_basins/" + experiment_name + "_seed_" + str(seed)
 create_folder(folder_path=path_save_folder)
 
 weights_save_path = os.path.join(path_save_folder, "weights")
