@@ -23,7 +23,7 @@
 # [2]: Gauch, M., Kratzert, F., Klotz, D., Nearing, G., Lin, J., & Hochreiter, S. (2021). Rainfall–runoff prediction at multiple timescales with a single long short-term memory network. Hydrology and Earth System Sciences, 25(4), 2045–2062. https://doi.org/10.5194/hess-25-2045-2021
 # 
 
-# In[3]:
+# In[1]:
 
 
 # Import necessary packages
@@ -56,7 +56,7 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 # # (1) weekly-daily-hourly resolution
 # n_month_in_weekly = 6   # the first n month in weekly resolution 
-# n_days_in_hourly = 28     # the last n days in hourly resolution, and the remaining days are in daily resolution
+# n_days_in_hourly = 197     # the last n days in hourly resolution, and the remaining days are in daily resolution
 
 # n_steps_in_weekly = n_month_in_weekly * 4
 # freq_factor_in_weekly = 24 * 7
@@ -73,6 +73,24 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 
 # ## 1. Initialize information
+# 
+# Training dataset setting:
+# 
+# | *predict_last_n*                   | 1          | >1             | >1              |
+# |----------------------------------|------------|----------------|-----------------|
+# | *unique_prediction_blocks_training*| True/False | True           | False           |
+# | The timestep of target discharge overlap? | No   | No             | Yes (stride=1)  |
+# | Training data amount             | ——         | Less           | More            |
+# 
+# Validation and test dataset setting:
+# 
+# | *predict_last_n_evaluation*           | 1            | >1           |
+# |-------------------------------------|--------------|--------------|
+# | *unique_prediction_blocks_evaluation* | True/False   | True         |
+# | The timestep of target discharge overlap? | No       | No           |
+# 
+# 
+# 
 
 # In[ ]:
 
@@ -91,7 +109,7 @@ experiment_name = "4_day"
 # path_data = "/pfs/data6/home/ka/ka_iwu/ka_qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
 ## Haicore@KIT
-path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_100_Bayern.txt"
+path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_30_Bayern.txt"
 # path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_5.txt"
 path_data = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
@@ -191,9 +209,9 @@ model_configuration = {
     "hidden_size": 128,
     "batch_size_training": 256,
     "batch_size_evaluation": 1024,
-    "no_of_epochs": 30, # 30
     "dropout_rate": 0.4,
-    "learning_rate": {1: 5e-4, 10: 1e-4, 25: 1e-5},
+    "no_of_epochs": 10, # 30
+    "learning_rate": {1: 5e-4, 5: 1e-4, 8: 1e-5},  # {1: 5e-4, 10: 1e-4, 25: 1e-5},
     "set_forget_gate": 3,
     "validate_every": 1, # 5
     "validate_n_random_basins": -1,
@@ -208,11 +226,11 @@ seed = 110
 
 # ## 2. Calculate additional information necessary for the model
 
-# In[9]:
+# In[ ]:
 
 
 # Create folder to store the results
-path_save_folder = "./results/pred_1/100_basin/" + experiment_name + "_seed_" + str(seed)
+path_save_folder = "./results/pred_1/30_basins/" + experiment_name + "_seed_" + str(seed)
 create_folder(folder_path=path_save_folder)
 
 weights_save_path = os.path.join(path_save_folder, "weights")
@@ -220,7 +238,7 @@ if not os.path.exists(weights_save_path):
     os.makedirs(weights_save_path)
 
 
-# In[4]:
+# In[5]:
 
 
 # check if model will be run in gpu or cpu and define device
@@ -231,7 +249,7 @@ elif running_device == "cpu":
     device = "cpu"
 
 
-# In[ ]:
+# In[6]:
 
 
 # include information about input size for each frequency
@@ -247,9 +265,26 @@ model_configuration["input_size_lstm"] = model_configuration["n_dynamic_channels
 if model_configuration.get("custom_freq_processing") and not model_configuration.get("dynamic_embeddings"):
     model_configuration["input_size_lstm"] = model_configuration["input_size_lstm"] + 1
 
-# If predict_last_n_training was not defined, we initialize it as 1
+# If predict_last_n was not defined, we initialize it as 1
 if not model_configuration.get("predict_last_n"):
     model_configuration["predict_last_n"] = 1
+if not model_configuration.get("predict_last_n_evaluation"):
+    model_configuration["predict_last_n_evaluation"] = 1
+
+# Check connection between predict_last_n_evaluation and unique_prediction_blocks_evaluation. If predict_last_n_evaluation is larger than 1, and
+# unique_prediction_blocks is False, we change for evaluation purposes predict_last_n_evaluation to 1. This avoid having
+# multiple predictions for the same time step due to the overlap of the sequences.
+if model_configuration.get("predict_last_n_evaluation", 1) > 1 and not model_configuration.get("unique_prediction_blocks_evaluation"):
+    print(
+        (
+            "Warning: predict_last_n_evaluation > 1 and unique_prediction_blocks_evaluation = False."
+            + " This creates overlapping sequences during evaluation. To avoid this, predict_last_n_evaluation will be changed to"
+            + " 1 during evaluation (validation / testing). This will not affect the training process."
+        )
+    )
+    model_configuration["predict_last_n_evaluation"] = 1
+else:
+    model_configuration["predict_last_n_evaluation"] = model_configuration.get("predict_last_n_evaluation", 1)
 
 
 # In[6]:

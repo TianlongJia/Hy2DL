@@ -51,12 +51,12 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 # ## Define the squeue length for each frequency of MF-LSTM
 
-# In[2]:
+# In[ ]:
 
 
 # # (1) weekly-daily-hourly resolution
 # n_month_in_weekly = 6   # the first n month in weekly resolution 
-# n_days_in_hourly = 28     # the last n days in hourly resolution, and the remaining days are in daily resolution
+# n_days_in_hourly = 197     # the last n days in hourly resolution, and the remaining days are in daily resolution
 
 # n_steps_in_weekly = n_month_in_weekly * 4
 # freq_factor_in_weekly = 24 * 7
@@ -109,7 +109,7 @@ experiment_name = "1_day"
 # path_data = "/pfs/data6/home/ka/ka_iwu/ka_qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
 ## Haicore@KIT
-path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_100_Bayern.txt"
+path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_30_Bayern.txt"
 # path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_5.txt"
 path_data = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
@@ -209,9 +209,9 @@ model_configuration = {
     "hidden_size": 128,
     "batch_size_training": 256,
     "batch_size_evaluation": 1024,
-    "no_of_epochs": 30, # 30
     "dropout_rate": 0.4,
-    "learning_rate": {1: 5e-4, 10: 1e-4, 25: 1e-5},
+    "no_of_epochs": 10, # 30
+    "learning_rate": {1: 5e-4, 5: 1e-4, 8: 1e-5},  # {1: 5e-4, 10: 1e-4, 25: 1e-5},
     "set_forget_gate": 3,
     "validate_every": 1, # 5
     "validate_n_random_basins": -1,
@@ -230,7 +230,7 @@ seed = 110
 
 
 # Create folder to store the results
-path_save_folder = "./results/pred_24_stride_1/100_basins/" + experiment_name + "_seed_" + str(seed)
+path_save_folder = "./results/pred_24_stride_1/30_basins/" + experiment_name + "_seed_" + str(seed)
 create_folder(folder_path=path_save_folder)
 
 weights_save_path = os.path.join(path_save_folder, "weights")
