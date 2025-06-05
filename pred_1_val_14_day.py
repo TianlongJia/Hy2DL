@@ -36,12 +36,13 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 import json
 
-print("***************  7_day_seed_110  ****************")
+print("***************  14_day_seed_110  ****************")
 
-model_configuration_file = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_24_stride_1/30_basins/7_day_seed_110/model_config.json"
-model_weight_path = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_24_stride_1/30_basins/7_day_seed_110/best_model"
-scaler_path = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_24_stride_1/30_basins/7_day_seed_110/scaler.pickle"
-test_result_save_path = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_24_stride_1/30_basins/7_day_seed_110/val"
+model_configuration_file = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_1/30_basins/14_day_seed_110/model_config.json"
+model_weight_path = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_1/30_basins/14_day_seed_110/best_model"
+scaler_path = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_1/30_basins/14_day_seed_110/scaler.pickle"
+test_result_save_path = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_1/30_basins/14_day_seed_110/val"
+
 
 # model_configuration_file = r"D:\Research\Projects\Hy2DL\results\14_day_in_hourly_pred_last_24_seed_110\model_config.json"
 # model_weight_path = r"D:\Research\Projects\Hy2DL\results\14_day_in_hourly_pred_last_24_seed_110\best_model_at_epoch_30"
@@ -186,15 +187,10 @@ print(f"Median  NSE across all basins: {median_nse:.3f}")
 
 
 
-model_configuration_file = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_24_stride_1/30_basins/7_day_seed_110/model_config.json"
-model_weight_path = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_24_stride_1/30_basins/7_day_seed_110/best_model"
-scaler_path = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_24_stride_1/30_basins/7_day_seed_110/scaler.pickle"
-test_result_save_path = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_24_stride_1/30_basins/7_day_seed_110/test_results"
-
-# model_configuration_file = r"D:\Research\Projects\Hy2DL\results\14_day_in_hourly_pred_last_24_seed_110\model_config.json"
-# model_weight_path = r"D:\Research\Projects\Hy2DL\results\14_day_in_hourly_pred_last_24_seed_110\best_model_at_epoch_30"
-# scaler_path = r"D:\Research\Projects\Hy2DL\results\14_day_in_hourly_pred_last_24_seed_110\scaler.pickle"
-# test_result_save_path = r"D:\Research\Projects\Hy2DL\results\14_day_in_hourly_pred_last_24_seed_110\test02"
+model_configuration_file = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_1/30_basins/14_day_seed_110/model_config.json"
+model_weight_path = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_1/30_basins/14_day_seed_110/best_model"
+scaler_path = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_1/30_basins/14_day_seed_110/scaler.pickle"
+test_result_save_path = r"/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/results/pred_1/30_basins/14_day_seed_110/test_results"
 
 if not os.path.exists(test_result_save_path):
     os.makedirs(test_result_save_path)
