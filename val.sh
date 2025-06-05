@@ -10,4 +10,5 @@
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.9/bin/activate
 
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/retrain_24_s1_1_day.py
+python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/val_2_day.py
+python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/val_4_day.py
