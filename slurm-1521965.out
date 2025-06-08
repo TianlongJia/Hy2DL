@@ -1,4 +1,0 @@
-/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/50_day.py:335: UserWarning: The standard deviation of the following attribute(s) is NaN or zero: ['high_prec_dur']. The std of this attribute(s) has been forced to 1 to avoid NaN issues during normalization.
-  training_dataset.calculate_global_statistics(path_save_scaler=path_save_folder)
-/hkfs/home/haicore/iwu/qa8171/env/HY3.9/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
-  backends.update(_get_backends("networkx.backends"))

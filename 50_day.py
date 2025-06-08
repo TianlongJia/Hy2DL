@@ -207,8 +207,8 @@ model_configuration = {
     "unique_prediction_blocks_evaluation": True,
     "dynamic_embeddings": True,
     "hidden_size": 128,
-    "batch_size_training": 256,
-    "batch_size_evaluation": 1024,
+    "batch_size_training": 64,
+    "batch_size_evaluation": 256,
     "dropout_rate": 0.4,
     "no_of_epochs": 10, # 30
     "learning_rate": {1: 5e-4, 5: 1e-4, 8: 1e-5},  # {1: 5e-4, 10: 1e-4, 25: 1e-5},
