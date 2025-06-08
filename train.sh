@@ -10,4 +10,6 @@
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.9/bin/activate
 
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/pred_24_val_2_day.py
+python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/50_day.py
+python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/100_day.py
+python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/150_day.py
