@@ -109,7 +109,7 @@ experiment_name = "150_day"
 # path_data = "/pfs/data6/home/ka/ka_iwu/ka_qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
 ## Haicore@KIT
-path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_30_Bayern.txt"
+path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_292_Bayern.txt"
 # path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_5_Bayern.txt"
 path_data = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
@@ -210,8 +210,9 @@ model_configuration = {
     "batch_size_training": 64,
     "batch_size_evaluation": 256,
     "dropout_rate": 0.4,
-    "no_of_epochs": 10, # 30
-    "learning_rate": {1: 5e-4, 5: 1e-4, 8: 1e-5},  # {1: 5e-4, 10: 1e-4, 25: 1e-5},
+    "no_of_epochs": 30, # 30
+    # "learning_rate": {1: 5e-4, 5: 1e-4, 8: 1e-5},  # {1: 5e-4, 10: 1e-4, 25: 1e-5},
+    "learning_rate": {1: 5e-4, 10: 1e-4, 25: 1e-5},
     "set_forget_gate": 3,
     "validate_every": 1, # 5
     "validate_n_random_basins": -1,
@@ -230,7 +231,7 @@ seed = 110
 
 
 # Create folder to store the results
-path_save_folder = "./results/Exp4/" + experiment_name + "_seed_" + str(seed)
+path_save_folder = "./results/Exp5/" + experiment_name + "_seed_" + str(seed)
 create_folder(folder_path=path_save_folder)
 
 weights_save_path = os.path.join(path_save_folder, "weights")

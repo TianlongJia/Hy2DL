@@ -51,12 +51,12 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 # ## Define the squeue length for each frequency of MF-LSTM
 
-# In[3]:
+# In[ ]:
 
 
 # # (1) weekly-daily-hourly resolution
 # n_month_in_weekly = 6   # the first n month in weekly resolution 
-# n_days_in_hourly = 50     # the last n days in hourly resolution, and the remaining days are in daily resolution
+# n_days_in_hourly = 150     # the last n days in hourly resolution, and the remaining days are in daily resolution
 
 # n_steps_in_weekly = n_month_in_weekly * 4
 # freq_factor_in_weekly = 24 * 7
@@ -96,7 +96,7 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 
 # Define experiment name
-experiment_name = "50_day"
+experiment_name = "197_day"
 # experiment_name = "testXX"
 
 # paths to access the information
@@ -183,23 +183,13 @@ model_configuration = {
     "seq_length": 365 * 24,  # 1 year of hourly data
     "custom_freq_processing": {
         "1W": {
-           "n_steps": 24,  # 24 weeks (6 months)
-           "freq_factor": 168,  # 24*7 hours in a week
-        },
-        "1D": {
-           "n_steps": 147,  # ~2 months (197 - 1 days)
-           "freq_factor": 24,  # 24 hours in a day
+            "n_steps": 24,
+            "freq_factor": 168
         },
         "1h": {
-           "n_steps": 1200,  # 1 days of hourly data
-           "freq_factor": 1
+            "n_steps": 4728,
+            "freq_factor": 1
         }
-        # "1D": {
-        #     "n_steps": 351,
-        #     "freq_factor": 24,
-        # },
-        # "1h": {"n_steps": (365 - 351) * 24,
-        #        "freq_factor": 1}
     },
     "predict_last_n": 24,      # "predict_last_n" for training       
     "unique_prediction_blocks_training": True,

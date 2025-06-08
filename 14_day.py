@@ -96,7 +96,7 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 
 # Define experiment name
-experiment_name = "50_day"
+experiment_name = "14_day"
 # experiment_name = "testXX"
 
 # paths to access the information
@@ -187,11 +187,11 @@ model_configuration = {
            "freq_factor": 168,  # 24*7 hours in a week
         },
         "1D": {
-           "n_steps": 147,  # ~2 months (197 - 1 days)
+           "n_steps": 183,  # ~2 months (197 - 1 days)
            "freq_factor": 24,  # 24 hours in a day
         },
         "1h": {
-           "n_steps": 1200,  # 1 days of hourly data
+           "n_steps": 336,  # 1 days of hourly data
            "freq_factor": 1
         }
         # "1D": {
