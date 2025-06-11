@@ -11,6 +11,7 @@ docs/build/*
 experiments
 results/*
 data/
+env/
 
 # Build files
 *.egg-info
