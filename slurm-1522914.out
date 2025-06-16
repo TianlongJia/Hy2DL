@@ -1,0 +1,55 @@
+/hkfs/home/haicore/iwu/qa8171/env/HY3.9/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+Folder './results/Exp6/100_day_seed_110' created successfully.
+NVIDIA A100-SXM4-40GB
+Number of batches in training:  8898
+
+Sample batch details:
+Key          | Shape               
+-----------------------------------
+x_d_1D       | torch.Size([64, 265, 5])
+x_d_1h       | torch.Size([64, 2400, 5])
+x_s          | torch.Size([64, 17])
+y_obs        | torch.Size([64, 24, 1])
+basin_std    | torch.Size([64, 24, 1])
+basin        | (64,)               
+date         | (64, 24)            
+Epoch: 1  | Loss training: 9.493 | NSE validation: 0.533 | Epoch time: 1232.6  s | LR:0.00050 
+Epoch: 2  | Loss training: 5.624 | NSE validation: 0.610 | Epoch time: 1232.7  s | LR:0.00050 
+Epoch: 3  | Loss training: 4.698 | NSE validation: 0.617 | Epoch time: 1232.7  s | LR:0.00050 
+Epoch: 4  | Loss training: 4.226 | NSE validation: 0.621 | Epoch time: 1232.7  s | LR:0.00050 
+Epoch: 5  | Loss training: 3.891 | NSE validation: 0.642 | Epoch time: 1232.7  s | LR:0.00050 
+Epoch: 6  | Loss training: 3.632 | NSE validation: 0.642 | Epoch time: 1232.7  s | LR:0.00050 
+Epoch: 7  | Loss training: 3.446 | NSE validation: 0.665 | Epoch time: 1232.7  s | LR:0.00050 
+Epoch: 8  | Loss training: 3.344 | NSE validation: 0.653 | Epoch time: 1232.8  s | LR:0.00050 
+Epoch: 9  | Loss training: 3.191 | NSE validation: 0.671 | Epoch time: 1233.0  s | LR:0.00050 
+Epoch: 10 | Loss training: 3.087 | NSE validation: 0.675 | Epoch time: 1232.7  s | LR:0.00050 
+Epoch: 11 | Loss training: 2.663 | NSE validation: 0.657 | Epoch time: 1232.7  s | LR:0.00010 
+Epoch: 12 | Loss training: 2.565 | NSE validation: 0.654 | Epoch time: 1232.7  s | LR:0.00010 
+Epoch: 13 | Loss training: 2.518 | NSE validation: 0.669 | Epoch time: 1232.8  s | LR:0.00010 
+Epoch: 14 | Loss training: 2.477 | NSE validation: 0.637 | Epoch time: 1232.7  s | LR:0.00010 
+Epoch: 15 | Loss training: 2.452 | NSE validation: 0.679 | Epoch time: 1232.7  s | LR:0.00010 
+Epoch: 16 | Loss training: 2.412 | NSE validation: 0.658 | Epoch time: 1232.7  s | LR:0.00010 
+Epoch: 17 | Loss training: 2.400 | NSE validation: 0.650 | Epoch time: 1232.7  s | LR:0.00010 
+Epoch: 18 | Loss training: 2.376 | NSE validation: 0.669 | Epoch time: 1232.9  s | LR:0.00010 
+Epoch: 19 | Loss training: 2.341 | NSE validation: 0.674 | Epoch time: 1232.6  s | LR:0.00010 
+Epoch: 20 | Loss training: 2.338 | NSE validation: 0.645 | Epoch time: 1232.7  s | LR:0.00010 
+Epoch: 21 | Loss training: 2.310 | NSE validation: 0.650 | Epoch time: 1232.8  s | LR:0.00010 
+Epoch: 22 | Loss training: 2.297 | NSE validation: 0.657 | Epoch time: 1232.8  s | LR:0.00010 
+Epoch: 23 | Loss training: 2.278 | NSE validation: 0.662 | Epoch time: 1232.7  s | LR:0.00010 
+Epoch: 24 | Loss training: 2.253 | NSE validation: 0.655 | Epoch time: 1232.7  s | LR:0.00010 
+Epoch: 25 | Loss training: 2.224 | NSE validation: 0.659 | Epoch time: 1232.8  s | LR:0.00010 
+Epoch: 26 | Loss training: 2.138 | NSE validation: 0.655 | Epoch time: 1232.8  s | LR:0.00001 
+Epoch: 27 | Loss training: 2.116 | NSE validation: 0.668 | Epoch time: 1232.8  s | LR:0.00001 
+Epoch: 28 | Loss training: 2.105 | NSE validation: 0.656 | Epoch time: 1232.7  s | LR:0.00001 
+Epoch: 29 | Loss training: 2.102 | NSE validation: 0.662 | Epoch time: 1232.8  s | LR:0.00001 
+Epoch: 30 | Loss training: 2.102 | NSE validation: 0.660 | Epoch time: 1232.8  s | LR:0.00001 
+Best (validation) median NSE: 0.679 at epoch 15
+The mean NSE (validation) of this epoch model is 0.57 
+Total training time: 616.4  min
+***************  Evaluation process begin  ****************
+Median  NSE across all basins: 0.681
+Mean NSE across all basins: 0.547
+Total evaluation time: 7.1  min
+/hkfs/home/haicore/iwu/qa8171/env/HY3.9/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))

@@ -1,0 +1,161 @@
+/hkfs/home/haicore/iwu/qa8171/env/HY3.9/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+Folder './results/Exp6/1_day_seed_110' created successfully.
+NVIDIA A100-SXM4-40GB
+Number of batches in training:  8898
+
+Sample batch details:
+Key          | Shape               
+-----------------------------------
+x_d_1D       | torch.Size([64, 364, 5])
+x_d_1h       | torch.Size([64, 24, 5])
+x_s          | torch.Size([64, 17])
+y_obs        | torch.Size([64, 24, 1])
+basin_std    | torch.Size([64, 24, 1])
+basin        | (64,)               
+date         | (64, 24)            
+Epoch: 1  | Loss training: 10.265 | NSE validation: 0.552 | Epoch time: 456.5  s | LR:0.00050 
+Epoch: 2  | Loss training: 6.089 | NSE validation: 0.611 | Epoch time: 456.1  s | LR:0.00050 
+Epoch: 3  | Loss training: 4.840 | NSE validation: 0.654 | Epoch time: 454.3  s | LR:0.00050 
+Epoch: 4  | Loss training: 4.271 | NSE validation: 0.657 | Epoch time: 454.5  s | LR:0.00050 
+Epoch: 5  | Loss training: 3.886 | NSE validation: 0.647 | Epoch time: 455.3  s | LR:0.00050 
+Epoch: 6  | Loss training: 3.625 | NSE validation: 0.660 | Epoch time: 457.0  s | LR:0.00050 
+Epoch: 7  | Loss training: 3.423 | NSE validation: 0.685 | Epoch time: 457.0  s | LR:0.00050 
+Epoch: 8  | Loss training: 3.274 | NSE validation: 0.674 | Epoch time: 459.2  s | LR:0.00050 
+Epoch: 9  | Loss training: 3.141 | NSE validation: 0.715 | Epoch time: 456.4  s | LR:0.00050 
+Epoch: 10 | Loss training: 3.025 | NSE validation: 0.704 | Epoch time: 456.1  s | LR:0.00050 
+Epoch: 11 | Loss training: 2.615 | NSE validation: 0.703 | Epoch time: 455.2  s | LR:0.00010 
+Epoch: 12 | Loss training: 2.526 | NSE validation: 0.706 | Epoch time: 455.4  s | LR:0.00010 
+Epoch: 13 | Loss training: 2.483 | NSE validation: 0.699 | Epoch time: 455.4  s | LR:0.00010 
+Epoch: 14 | Loss training: 2.448 | NSE validation: 0.710 | Epoch time: 454.2  s | LR:0.00010 
+Epoch: 15 | Loss training: 2.407 | NSE validation: 0.707 | Epoch time: 453.9  s | LR:0.00010 
+Epoch: 16 | Loss training: 2.389 | NSE validation: 0.711 | Epoch time: 454.8  s | LR:0.00010 
+Epoch: 17 | Loss training: 2.345 | NSE validation: 0.699 | Epoch time: 457.6  s | LR:0.00010 
+Epoch: 18 | Loss training: 2.317 | NSE validation: 0.715 | Epoch time: 455.2  s | LR:0.00010 
+Epoch: 19 | Loss training: 2.303 | NSE validation: 0.712 | Epoch time: 458.0  s | LR:0.00010 
+Epoch: 20 | Loss training: 2.276 | NSE validation: 0.706 | Epoch time: 456.4  s | LR:0.00010 
+Epoch: 21 | Loss training: 2.262 | NSE validation: 0.699 | Epoch time: 459.8  s | LR:0.00010 
+Epoch: 22 | Loss training: 2.244 | NSE validation: 0.721 | Epoch time: 459.9  s | LR:0.00010 
+Epoch: 23 | Loss training: 2.221 | NSE validation: 0.715 | Epoch time: 461.2  s | LR:0.00010 
+Epoch: 24 | Loss training: 2.188 | NSE validation: 0.697 | Epoch time: 455.7  s | LR:0.00010 
+Epoch: 25 | Loss training: 2.174 | NSE validation: 0.714 | Epoch time: 457.6  s | LR:0.00010 
+Epoch: 26 | Loss training: 2.089 | NSE validation: 0.710 | Epoch time: 460.8  s | LR:0.00001 
+Epoch: 27 | Loss training: 2.066 | NSE validation: 0.713 | Epoch time: 459.7  s | LR:0.00001 
+Epoch: 28 | Loss training: 2.063 | NSE validation: 0.703 | Epoch time: 458.3  s | LR:0.00001 
+Epoch: 29 | Loss training: 2.067 | NSE validation: 0.709 | Epoch time: 456.1  s | LR:0.00001 
+Epoch: 30 | Loss training: 2.061 | NSE validation: 0.712 | Epoch time: 460.5  s | LR:0.00001 
+Best (validation) median NSE: 0.721 at epoch 22
+The mean NSE (validation) of this epoch model is 0.64 
+Total training time: 228.5  min
+***************  Evaluation process begin  ****************
+Median  NSE across all basins: 0.711
+Mean NSE across all basins: 0.626
+Total evaluation time: 3.9  min
+/hkfs/home/haicore/iwu/qa8171/env/HY3.9/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+Folder './results/Exp6/2_day_seed_110' created successfully.
+NVIDIA A100-SXM4-40GB
+Number of batches in training:  8898
+
+Sample batch details:
+Key          | Shape               
+-----------------------------------
+x_d_1D       | torch.Size([64, 363, 5])
+x_d_1h       | torch.Size([64, 48, 5])
+x_s          | torch.Size([64, 17])
+y_obs        | torch.Size([64, 24, 1])
+basin_std    | torch.Size([64, 24, 1])
+basin        | (64,)               
+date         | (64, 24)            
+Epoch: 1  | Loss training: 9.410 | NSE validation: 0.580 | Epoch time: 455.6  s | LR:0.00050 
+Epoch: 2  | Loss training: 5.793 | NSE validation: 0.646 | Epoch time: 454.1  s | LR:0.00050 
+Epoch: 3  | Loss training: 4.734 | NSE validation: 0.669 | Epoch time: 453.9  s | LR:0.00050 
+Epoch: 4  | Loss training: 4.138 | NSE validation: 0.675 | Epoch time: 454.1  s | LR:0.00050 
+Epoch: 5  | Loss training: 3.789 | NSE validation: 0.651 | Epoch time: 454.1  s | LR:0.00050 
+Epoch: 6  | Loss training: 3.551 | NSE validation: 0.670 | Epoch time: 454.1  s | LR:0.00050 
+Epoch: 7  | Loss training: 3.346 | NSE validation: 0.701 | Epoch time: 453.9  s | LR:0.00050 
+Epoch: 8  | Loss training: 3.196 | NSE validation: 0.676 | Epoch time: 454.1  s | LR:0.00050 
+Epoch: 9  | Loss training: 3.053 | NSE validation: 0.690 | Epoch time: 454.7  s | LR:0.00050 
+Epoch: 10 | Loss training: 2.938 | NSE validation: 0.699 | Epoch time: 456.8  s | LR:0.00050 
+Epoch: 11 | Loss training: 2.524 | NSE validation: 0.684 | Epoch time: 454.9  s | LR:0.00010 
+Epoch: 12 | Loss training: 2.421 | NSE validation: 0.702 | Epoch time: 454.1  s | LR:0.00010 
+Epoch: 13 | Loss training: 2.370 | NSE validation: 0.699 | Epoch time: 454.4  s | LR:0.00010 
+Epoch: 14 | Loss training: 2.329 | NSE validation: 0.695 | Epoch time: 454.9  s | LR:0.00010 
+Epoch: 15 | Loss training: 2.301 | NSE validation: 0.699 | Epoch time: 454.5  s | LR:0.00010 
+Epoch: 16 | Loss training: 2.268 | NSE validation: 0.714 | Epoch time: 454.6  s | LR:0.00010 
+Epoch: 17 | Loss training: 2.232 | NSE validation: 0.688 | Epoch time: 453.0  s | LR:0.00010 
+Epoch: 18 | Loss training: 2.222 | NSE validation: 0.698 | Epoch time: 453.3  s | LR:0.00010 
+Epoch: 19 | Loss training: 2.189 | NSE validation: 0.704 | Epoch time: 452.7  s | LR:0.00010 
+Epoch: 20 | Loss training: 2.164 | NSE validation: 0.695 | Epoch time: 453.0  s | LR:0.00010 
+Epoch: 21 | Loss training: 2.150 | NSE validation: 0.678 | Epoch time: 453.2  s | LR:0.00010 
+Epoch: 22 | Loss training: 2.132 | NSE validation: 0.694 | Epoch time: 453.2  s | LR:0.00010 
+Epoch: 23 | Loss training: 2.114 | NSE validation: 0.691 | Epoch time: 453.3  s | LR:0.00010 
+Epoch: 24 | Loss training: 2.097 | NSE validation: 0.679 | Epoch time: 453.4  s | LR:0.00010 
+Epoch: 25 | Loss training: 2.080 | NSE validation: 0.689 | Epoch time: 452.6  s | LR:0.00010 
+Epoch: 26 | Loss training: 1.992 | NSE validation: 0.696 | Epoch time: 452.8  s | LR:0.00001 
+Epoch: 27 | Loss training: 1.965 | NSE validation: 0.697 | Epoch time: 454.2  s | LR:0.00001 
+Epoch: 28 | Loss training: 1.959 | NSE validation: 0.696 | Epoch time: 452.0  s | LR:0.00001 
+Epoch: 29 | Loss training: 1.962 | NSE validation: 0.701 | Epoch time: 452.4  s | LR:0.00001 
+Epoch: 30 | Loss training: 1.952 | NSE validation: 0.697 | Epoch time: 452.8  s | LR:0.00001 
+Best (validation) median NSE: 0.714 at epoch 16
+The mean NSE (validation) of this epoch model is 0.59 
+Total training time: 226.9  min
+***************  Evaluation process begin  ****************
+Median  NSE across all basins: 0.723
+Mean NSE across all basins: 0.616
+Total evaluation time: 3.9  min
+/hkfs/home/haicore/iwu/qa8171/env/HY3.9/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
+Folder './results/Exp6/4_day_seed_110' created successfully.
+NVIDIA A100-SXM4-40GB
+Number of batches in training:  8898
+
+Sample batch details:
+Key          | Shape               
+-----------------------------------
+x_d_1D       | torch.Size([64, 361, 5])
+x_d_1h       | torch.Size([64, 96, 5])
+x_s          | torch.Size([64, 17])
+y_obs        | torch.Size([64, 24, 1])
+basin_std    | torch.Size([64, 24, 1])
+basin        | (64,)               
+date         | (64, 24)            
+Epoch: 1  | Loss training: 9.443 | NSE validation: 0.577 | Epoch time: 455.6  s | LR:0.00050 
+Epoch: 2  | Loss training: 5.808 | NSE validation: 0.661 | Epoch time: 455.3  s | LR:0.00050 
+Epoch: 3  | Loss training: 4.644 | NSE validation: 0.682 | Epoch time: 454.7  s | LR:0.00050 
+Epoch: 4  | Loss training: 4.162 | NSE validation: 0.672 | Epoch time: 457.4  s | LR:0.00050 
+Epoch: 5  | Loss training: 3.778 | NSE validation: 0.709 | Epoch time: 455.5  s | LR:0.00050 
+Epoch: 6  | Loss training: 3.534 | NSE validation: 0.711 | Epoch time: 456.4  s | LR:0.00050 
+Epoch: 7  | Loss training: 3.337 | NSE validation: 0.728 | Epoch time: 457.4  s | LR:0.00050 
+Epoch: 8  | Loss training: 3.165 | NSE validation: 0.707 | Epoch time: 457.0  s | LR:0.00050 
+Epoch: 9  | Loss training: 3.054 | NSE validation: 0.736 | Epoch time: 456.6  s | LR:0.00050 
+Epoch: 10 | Loss training: 2.920 | NSE validation: 0.704 | Epoch time: 455.1  s | LR:0.00050 
+Epoch: 11 | Loss training: 2.490 | NSE validation: 0.724 | Epoch time: 454.6  s | LR:0.00010 
+Epoch: 12 | Loss training: 2.409 | NSE validation: 0.731 | Epoch time: 454.9  s | LR:0.00010 
+Epoch: 13 | Loss training: 2.370 | NSE validation: 0.728 | Epoch time: 456.3  s | LR:0.00010 
+Epoch: 14 | Loss training: 2.328 | NSE validation: 0.730 | Epoch time: 455.1  s | LR:0.00010 
+Epoch: 15 | Loss training: 2.291 | NSE validation: 0.730 | Epoch time: 455.6  s | LR:0.00010 
+Epoch: 16 | Loss training: 2.273 | NSE validation: 0.733 | Epoch time: 455.8  s | LR:0.00010 
+Epoch: 17 | Loss training: 2.239 | NSE validation: 0.727 | Epoch time: 456.0  s | LR:0.00010 
+Epoch: 18 | Loss training: 2.212 | NSE validation: 0.727 | Epoch time: 453.7  s | LR:0.00010 
+Epoch: 19 | Loss training: 2.195 | NSE validation: 0.724 | Epoch time: 454.5  s | LR:0.00010 
+Epoch: 20 | Loss training: 2.169 | NSE validation: 0.728 | Epoch time: 456.4  s | LR:0.00010 
+Epoch: 21 | Loss training: 2.145 | NSE validation: 0.710 | Epoch time: 455.3  s | LR:0.00010 
+Epoch: 22 | Loss training: 2.123 | NSE validation: 0.718 | Epoch time: 454.2  s | LR:0.00010 
+Epoch: 23 | Loss training: 2.104 | NSE validation: 0.727 | Epoch time: 453.7  s | LR:0.00010 
+Epoch: 24 | Loss training: 2.077 | NSE validation: 0.714 | Epoch time: 453.9  s | LR:0.00010 
+Epoch: 25 | Loss training: 2.067 | NSE validation: 0.712 | Epoch time: 453.6  s | LR:0.00010 
+Epoch: 26 | Loss training: 1.982 | NSE validation: 0.715 | Epoch time: 453.0  s | LR:0.00001 
+Epoch: 27 | Loss training: 1.956 | NSE validation: 0.716 | Epoch time: 453.1  s | LR:0.00001 
+Epoch: 28 | Loss training: 1.950 | NSE validation: 0.714 | Epoch time: 453.4  s | LR:0.00001 
+Epoch: 29 | Loss training: 1.938 | NSE validation: 0.719 | Epoch time: 453.5  s | LR:0.00001 
+Epoch: 30 | Loss training: 1.937 | NSE validation: 0.714 | Epoch time: 454.0  s | LR:0.00001 
+Best (validation) median NSE: 0.736 at epoch 9
+The mean NSE (validation) of this epoch model is 0.65 
+Total training time: 227.5  min
+***************  Evaluation process begin  ****************
+Median  NSE across all basins: 0.708
+Mean NSE across all basins: 0.630
+Total evaluation time: 3.9  min
+/hkfs/home/haicore/iwu/qa8171/env/HY3.9/lib64/python3.9/site-packages/networkx/utils/backends.py:135: RuntimeWarning: networkx backend defined more than once: nx-loopback
+  backends.update(_get_backends("networkx.backends"))
