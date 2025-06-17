@@ -23,7 +23,7 @@
 # [2]: Gauch, M., Kratzert, F., Klotz, D., Nearing, G., Lin, J., & Hochreiter, S. (2021). Rainfall–runoff prediction at multiple timescales with a single long short-term memory network. Hydrology and Earth System Sciences, 25(4), 2045–2062. https://doi.org/10.5194/hess-25-2045-2021
 # 
 
-# In[ ]:
+# In[1]:
 
 
 # Import necessary packages
@@ -51,26 +51,8 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 # ## Define the squeue length for each frequency of MF-LSTM
 
-# In[ ]:
+# In[1]:
 
-
-# # (1) weekly-daily-hourly resolution
-# n_month_in_weekly = 0   # the first n month in weekly resolution 
-# n_days_in_hourly = 14     # the last n days in hourly resolution, and the remaining days are in daily resolution
-
-# n_steps_in_weekly = n_month_in_weekly * 4
-# freq_factor_in_weekly = 24 * 7
-
-# n_steps_in_hourly = n_days_in_hourly * 24
-# freq_factor_in_hourly = 1
-
-# n_steps_in_daily = 365 - (n_month_in_weekly * 4 * 7) - n_days_in_hourly
-# freq_factor_in_daily = 24
-
-# print("1W: n_steps: ", n_steps_in_weekly, " freqs_factor: ", freq_factor_in_weekly)
-# print("1D: n_steps: ", n_steps_in_daily, " freq_factor: ", freq_factor_in_daily)
-# print("1h: n_steps: ", n_steps_in_hourly, " freq_factor: ", freq_factor_in_hourly)
-# print("Total n_steps in a sequence: ", n_steps_in_weekly + n_steps_in_daily + n_steps_in_hourly)
 
 
 # ## 1. Initialize information
@@ -98,7 +80,7 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 
 # Define experiment name
 # experiment_name = "150_day"
-experiment_name = "testXX"
+experiment_name = "test"
 
 # paths to access the information
 # My PC
@@ -110,7 +92,7 @@ experiment_name = "testXX"
 # path_data = "/pfs/data6/home/ka/ka_iwu/ka_qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
 ## Haicore@KIT
-# path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_30_Bayern.txt"
+# path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basins_camels_de_hourly_292_Bayern.txt"
 path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basin_ids_workshop_part1.txt"
 path_data = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
@@ -128,7 +110,7 @@ dynamic_input = {
         "precipitation_resampled",
         "air_temperature_mean_mean",
         "global_shortwave_radiation_mean",
-        "air_pressure_surface_mean",   # I did not used in my experiments
+        "air_pressure_surface_mean",  
         "relative_humidity_mean",
         "wind_speed_mean",
         #"discharge_spec_obs",
@@ -137,7 +119,7 @@ dynamic_input = {
         "precipitation_sum_mean",
         "air_temperature_mean_mean",
         "global_shortwave_radiation_mean",
-        "air_pressure_surface_mean",  # I did not used in my experiments
+        "air_pressure_surface_mean",  
         "relative_humidity_mean",
         "wind_speed_mean",
         #"discharge_spec_obs",
@@ -184,7 +166,7 @@ model_configuration = {
     "seq_length": 365 * 24,  # 1 year of hourly data
     "custom_freq_processing": {
         # "1W": {
-        #    "n_steps": 24,  # 24 weeks (6 months)
+        #    "n_steps": 0,  # 24 weeks (6 months)
         #    "freq_factor": 168,  # 24*7 hours in a week
         # },
         "1D": {
@@ -192,15 +174,9 @@ model_configuration = {
            "freq_factor": 24,  # 24 hours in a day
         },
         "1h": {
-           "n_steps": (365-351) *24,  # 1 days of hourly data
+           "n_steps": (365-351)*24,  # 1 days of hourly data
            "freq_factor": 1
         }
-        # "1D": {
-        #     "n_steps": 351,
-        #     "freq_factor": 24,
-        # },
-        # "1h": {"n_steps": (365 - 351) * 24,
-        #        "freq_factor": 1}
     },
     "predict_last_n": 1,      # "predict_last_n" for training       
     "unique_prediction_blocks_training": True,
@@ -208,13 +184,13 @@ model_configuration = {
     "unique_prediction_blocks_evaluation": True,
     "dynamic_embeddings": False,   # originally True
     "hidden_size": 128,
-    "batch_size_training": 256,
-    "batch_size_evaluation": 1024,
+    "batch_size_training": 256,  # 256
+    "batch_size_evaluation": 1024, # 1024
     "dropout_rate": 0.4,
     "no_of_epochs": 5, # 30
     "learning_rate": {1: 5e-4, 4: 1e-4, 5: 1e-5}, # {1: 5e-4, 10: 1e-4, 25: 1e-5} for 30 epochs
     "set_forget_gate": 3,
-    "validate_every": 2, # 5
+    "validate_every": 1, # 5
     "validate_n_random_basins": -1,
 }
 
@@ -227,7 +203,7 @@ seed = 110
 
 # ## 2. Calculate additional information necessary for the model
 
-# In[ ]:
+# In[3]:
 
 
 # Create folder to store the results
@@ -239,7 +215,7 @@ if not os.path.exists(weights_save_path):
     os.makedirs(weights_save_path)
 
 
-# In[ ]:
+# In[4]:
 
 
 # check if model will be run in gpu or cpu and define device
@@ -250,7 +226,7 @@ elif running_device == "cpu":
     device = "cpu"
 
 
-# In[ ]:
+# In[5]:
 
 
 # include information about input size for each frequency
@@ -288,7 +264,7 @@ else:
     model_configuration["predict_last_n_evaluation"] = model_configuration.get("predict_last_n_evaluation", 1)
 
 
-# In[ ]:
+# In[6]:
 
 
 # save model config
@@ -313,7 +289,7 @@ with open(path_save_folder + "/model_config.json", "w") as f:
 
 # ## 3. Class to create the dataset object used in training
 
-# In[ ]:
+# In[7]:
 
 
 # Dataset training
@@ -345,7 +321,7 @@ training_dataset.standardize_data()
 # print(f"One sample in training dataset look like: {dataset_sample}")
 
 
-# In[ ]:
+# In[8]:
 
 
 # Dataloader training
@@ -369,7 +345,7 @@ for key, value in next(iter(train_loader)).items():
 
 # ## 4. Create dataset for validation
 
-# In[ ]:
+# In[10]:
 
 
 # In evaluation (validation and testing) we will create an individual dataset per basin. This will give us more 
@@ -401,10 +377,10 @@ for entity in entities_ids:
 # In[ ]:
 
 
-# Check the val dataset
-dataset = validation_dataset[entities_ids[0]]
-print(f"basin {entities_ids[0]}, dataset length: {len(dataset)} samples")
-print(f"the first sample of basin {entities_ids[0]} in val dataset is: {dataset[0]}")
+# # Check the val dataset
+# dataset = validation_dataset[entities_ids[0]]
+# print(f"basin {entities_ids[0]}, dataset length: {len(dataset)} samples")
+# print(f"the first sample of basin {entities_ids[0]} in val dataset is: {dataset[0]}")
 
 
 # ## 5. Train Model
