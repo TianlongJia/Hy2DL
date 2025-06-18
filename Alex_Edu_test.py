@@ -56,8 +56,11 @@ from hy2dl.modelzoo.mflstm import MFLSTM as modelclass
 experiment_name = "LSTM_CAMELS_DE_hourly"
 
 # paths to access the information
-path_entities = r"D:\Research\Projects\Hy2DL\data\basin_id\basin_ids_workshop_part1.txt"
-path_data = r"D:\Research\Projects\Hy2DL\data\CAMELS_DE"
+# path_entities = r"D:\Research\Projects\Hy2DL\data\basin_id\basin_ids_workshop_part1.txt"
+# path_data = r"D:\Research\Projects\Hy2DL\data\CAMELS_DE"
+
+path_entities = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/basin_id/basin_ids_workshop_part1.txt"
+path_data = "/hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/data/CAMELS_DE/"
 
 # dynamic forcings and target
 dynamic_input = {
