@@ -540,19 +540,19 @@ plt.title("NSE Histogram", fontsize=16, fontweight="bold")
 plt.show()
 
 
-# In[ ]:
+# # In[ ]:
 
 
-# Plot simulated and observed discharges
-basin_to_analyze = "01022500"
+# # Plot simulated and observed discharges
+# basin_to_analyze = "01022500"
 
-plt.plot(test_results[basin_to_analyze]["y_obs"], label="observed", color=color_palette["observed"])
-plt.plot(test_results[basin_to_analyze]["y_sim"], label="simulated", alpha=0.5, color=color_palette["simulated"])
+# plt.plot(test_results[basin_to_analyze]["y_obs"], label="observed", color=color_palette["observed"])
+# plt.plot(test_results[basin_to_analyze]["y_sim"], label="simulated", alpha=0.5, color=color_palette["simulated"])
 
-# Format plot
-plt.xlabel("Date", fontsize=12, fontweight="bold")
-plt.ylabel("Discharge [mm/d]", fontsize=12, fontweight="bold")
-plt.title("Result comparison", fontsize=16, fontweight="bold")
-plt.tick_params(axis="both", which="major", labelsize=12)
-plt.legend(loc="upper right", fontsize=12)
+# # Format plot
+# plt.xlabel("Date", fontsize=12, fontweight="bold")
+# plt.ylabel("Discharge [mm/d]", fontsize=12, fontweight="bold")
+# plt.title("Result comparison", fontsize=16, fontweight="bold")
+# plt.tick_params(axis="both", which="major", labelsize=12)
+# plt.legend(loc="upper right", fontsize=12)
 
