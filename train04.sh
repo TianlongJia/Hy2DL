@@ -10,7 +10,4 @@
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.9/bin/activate
 
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_100_day.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_150_day.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_200_day.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_250_day.py
+python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_365_day.py

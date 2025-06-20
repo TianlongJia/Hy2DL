@@ -10,10 +10,5 @@
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.9/bin/activate
 
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_1_day.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_2_day.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_4_day.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_7_day.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_14_day.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_28_day.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_50_day.py
+python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/Exp6_300_day.py
+
