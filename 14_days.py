@@ -550,27 +550,12 @@ write_report(file_path=path_save_folder + "/run_progress.txt", text=report)
 # In[ ]:
 
 
-# print("***************  Evaluation process begin  ****************")
-
-# # In case I already trained an LSTM I can re-construct the model
-# model = modelclass(model_configuration=model_configuration).to(device)
-# model.load_state_dict(torch.load(path_save_folder + "/best_model", map_location=device))
-
-# test_result_save_path = os.path.join(path_save_folder, "test_results_best_epoch")
-
-# if not os.path.exists(test_result_save_path):
-#     os.makedirs(test_result_save_path)
-
-# # We can read the training scaler or read a previously stored one
-# # scaler = training_dataset.scaler
-# with open(path_save_folder + "/scaler.pickle", "rb") as file:
-#    scaler = pickle.load(file)
-
-
-# In[ ]:
-
-
 print("***************  Evaluation process begin  ****************")
+
+# We can read the training scaler or read a previously stored one
+# scaler = training_dataset.scaler
+with open(path_save_folder + "/scaler.pickle", "rb") as file:
+   scaler = pickle.load(file)
 
 # In evaluation (validation and testing) we will create an individual dataset per basin. This will give us more 
 # flexibility
@@ -608,6 +593,8 @@ for entity in entities_ids:
 # print(f"the first sample of basin {entities_ids[0]} in test dataset is: {dataset[0]}")
 
 
+# ### 6.1 Using the best_epoch model
+
 # In[ ]:
 
 
@@ -621,11 +608,6 @@ test_result_save_path = os.path.join(path_save_folder, "test_results_best_epoch"
 
 if not os.path.exists(test_result_save_path):
     os.makedirs(test_result_save_path)
-
-# We can read the training scaler or read a previously stored one
-# scaler = training_dataset.scaler
-with open(path_save_folder + "/scaler.pickle", "rb") as file:
-   scaler = pickle.load(file)
 
 
 # In[ ]:
@@ -729,6 +711,8 @@ plt.savefig(os.path.join(test_result_save_path, "NSE_Histogram.png"), bbox_inche
 # plt.show()
 
 
+# ### 6.2 Using the final_epoch model
+
 # In[ ]:
 
 
@@ -743,11 +727,6 @@ test_result_save_path = os.path.join(path_save_folder, "test_results_final_epoch
 
 if not os.path.exists(test_result_save_path):
     os.makedirs(test_result_save_path)
-
-# We can read the training scaler or read a previously stored one
-# scaler = training_dataset.scaler
-with open(path_save_folder + "/scaler.pickle", "rb") as file:
-   scaler = pickle.load(file)
 
 
 # In[ ]:
