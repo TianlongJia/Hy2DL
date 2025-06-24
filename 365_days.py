@@ -62,7 +62,7 @@ print(f"Using random seed: {seed}")
 
 # # (1) weekly-daily-hourly resolution
 # n_month_in_weekly = 0   # the first n month in weekly resolution 
-# n_days_in_hourly = 14     # the last n days in hourly resolution, and the remaining days are in daily resolution
+# n_days_in_hourly = 365     # the last n days in hourly resolution, and the remaining days are in daily resolution
 
 # n_steps_in_weekly = n_month_in_weekly * 4
 # freq_factor_in_weekly = 24 * 7
@@ -103,7 +103,8 @@ print(f"Using random seed: {seed}")
 
 
 # Define experiment name
-experiment_name = "14_days"
+# experiment_name = "14_days"
+experiment_name = "365_days"
 
 # paths to access the information
 # My PC
@@ -181,8 +182,8 @@ model_configuration = {
     "no_of_layers": 1,
     "seq_length": 365 * 24,  # 1 year of hourly data
     "custom_freq_processing": {
-        "1D": {"n_steps": 351,"freq_factor": 24,},
-        "1h": {"n_steps": (365 - 351) * 24, "freq_factor": 1}},
+        "1D": {"n_steps": 0,"freq_factor": 24,},
+        "1h": {"n_steps": 365 * 24, "freq_factor": 1}},
     "predict_last_n": 24,
     "unique_prediction_blocks_training": True,
     "predict_last_n_evaluation": 24,
