@@ -720,7 +720,7 @@ plt.savefig(os.path.join(test_result_save_path, "NSE_Histogram.png"), bbox_inche
 
 # In case I already trained an LSTM I can re-construct the model
 model = modelclass(model_configuration=model_configuration).to(device)
-model.load_state_dict(torch.load(path_save_folder + "/weights/epoch_5", map_location=device))
+model.load_state_dict(torch.load(path_save_folder + "/weights/epoch_30", map_location=device))
 print("***************  Loading the final_epoch model  ****************")
 
 test_result_save_path = os.path.join(path_save_folder, "test_results_final_epoch")
