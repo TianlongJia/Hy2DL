@@ -10,5 +10,5 @@
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.9/bin/activate
 
-SEED=100 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/14days.py
-SEED=110 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/14days.py
+SEED=100 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/14_days.py
+SEED=110 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/14_days.py

@@ -209,7 +209,7 @@ running_device = "gpu"  # cpu or gpu
 
 # ## 2. Calculate additional information necessary for the model
 
-# In[3]:
+# In[ ]:
 
 
 # Create folder to store the results
@@ -221,7 +221,7 @@ if not os.path.exists(weights_save_path):
     os.makedirs(weights_save_path)
 
 
-# In[4]:
+# In[ ]:
 
 
 # check if model will be run in gpu or cpu and define device
@@ -232,7 +232,7 @@ elif running_device == "cpu":
     device = "cpu"
 
 
-# In[5]:
+# In[ ]:
 
 
 # include information about input size for each frequency
@@ -270,7 +270,7 @@ else:
     model_configuration["predict_last_n_evaluation"] = model_configuration.get("predict_last_n_evaluation", 1)
 
 
-# In[6]:
+# In[ ]:
 
 
 # save model config
@@ -295,7 +295,7 @@ with open(path_save_folder + "/model_config.json", "w") as f:
 
 # ## 3. Class to create the dataset object used in training
 
-# In[7]:
+# In[ ]:
 
 
 # Dataset training
@@ -328,7 +328,7 @@ training_dataset.standardize_data()
 # print(f"One sample in training dataset look like: {dataset_sample}")
 
 
-# In[8]:
+# In[ ]:
 
 
 # Dataloader training
@@ -352,7 +352,7 @@ for key, value in next(iter(train_loader)).items():
 
 # ## 4. Create dataset for validation
 
-# In[9]:
+# In[ ]:
 
 
 # In evaluation (validation and testing) we will create an individual dataset per basin. This will give us more 
@@ -395,7 +395,7 @@ for entity in entities_ids:
 # 
 # To do: Save the val_results.pickle of the best epoch
 
-# In[10]:
+# In[ ]:
 
 
 # construct model
@@ -547,7 +547,7 @@ write_report(file_path=path_save_folder + "/run_progress.txt", text=report)
 
 # ## 6. Evaluate Model
 
-# In[11]:
+# In[ ]:
 
 
 # print("***************  Evaluation process begin  ****************")
@@ -567,7 +567,7 @@ write_report(file_path=path_save_folder + "/run_progress.txt", text=report)
 #    scaler = pickle.load(file)
 
 
-# In[12]:
+# In[ ]:
 
 
 print("***************  Evaluation process begin  ****************")
@@ -628,7 +628,7 @@ with open(path_save_folder + "/scaler.pickle", "rb") as file:
    scaler = pickle.load(file)
 
 
-# In[13]:
+# In[ ]:
 
 
 eval_start_time = time.time()
@@ -676,7 +676,7 @@ with open(test_result_save_path + "/test_results.pickle", "wb") as f:
 evaluation_time = (time.time() - eval_start_time) / 60 # min
 
 
-# In[14]:
+# In[ ]:
 
 
 # Loss testing
@@ -700,7 +700,7 @@ print(report)
 write_report(file_path=path_save_folder + "/run_progress.txt", text=report)
 
 
-# In[16]:
+# In[ ]:
 
 
 # Plot the histogram
@@ -729,7 +729,7 @@ plt.savefig(os.path.join(test_result_save_path, "NSE_Histogram.png"), bbox_inche
 # plt.show()
 
 
-# In[17]:
+# In[ ]:
 
 
 # Load the "final_epoch" model
@@ -750,7 +750,7 @@ with open(path_save_folder + "/scaler.pickle", "rb") as file:
    scaler = pickle.load(file)
 
 
-# In[18]:
+# In[ ]:
 
 
 eval_start_time = time.time()
@@ -798,7 +798,7 @@ with open(test_result_save_path + "/test_results.pickle", "wb") as f:
 evaluation_time = (time.time() - eval_start_time) / 60 # min
 
 
-# In[26]:
+# In[ ]:
 
 
 # Loss testing
@@ -822,7 +822,7 @@ print(report)
 write_report(file_path=path_save_folder + "/run_progress.txt", text=report)
 
 
-# In[21]:
+# In[ ]:
 
 
 # Plot the histogram
