@@ -10,9 +10,9 @@
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.9/bin/activate
 
-# SEED=110 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/2_days.py
-# SEED=111 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/2_days.py
-# SEED=222 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/2_days.py
+SEED=110 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/2_days.py
+SEED=111 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/2_days.py
+SEED=222 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/2_days.py
 SEED=333 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/2_days.py
 SEED=444 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/2_days.py
 SEED=555 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/2_days.py

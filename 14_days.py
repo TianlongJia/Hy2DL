@@ -61,16 +61,16 @@ print(f"Using random seed: {seed}")
 
 
 # # (1) weekly-daily-hourly resolution
-# n_month_in_weekly = 0   # the first n month in weekly resolution 
+# n_week_in_weekly = 26   # half year 
 # n_days_in_hourly = 14     # the last n days in hourly resolution, and the remaining days are in daily resolution
 
-# n_steps_in_weekly = n_month_in_weekly * 4
+# n_steps_in_weekly = n_week_in_weekly
 # freq_factor_in_weekly = 24 * 7
 
 # n_steps_in_hourly = n_days_in_hourly * 24
 # freq_factor_in_hourly = 1
 
-# n_steps_in_daily = 365 - (n_month_in_weekly * 4 * 7) - n_days_in_hourly
+# n_steps_in_daily = 365 - (n_week_in_weekly * 7) - n_days_in_hourly
 # freq_factor_in_daily = 24
 
 # print("1W: n_steps: ", n_steps_in_weekly, " freqs_factor: ", freq_factor_in_weekly)
@@ -104,6 +104,7 @@ print(f"Using random seed: {seed}")
 
 # Define experiment name
 experiment_name = "14_days"
+# experiment_name = "28_days"
 
 # paths to access the information
 # My PC
@@ -181,13 +182,24 @@ model_configuration = {
     "no_of_layers": 1,
     "seq_length": 365 * 24,  # 1 year of hourly data
     "custom_freq_processing": {
-        "1D": {"n_steps": 351,"freq_factor": 24,},
-        "1h": {"n_steps": (365 - 351) * 24, "freq_factor": 1}},
+        "1W": {
+           "n_steps": 26,  
+           "freq_factor": 168,
+        },
+        "1D": {
+           "n_steps": 169,  # ~2 months (197 - 1 days)
+           "freq_factor": 24,  # 24 hours in a day
+        },
+        "1h": {
+           "n_steps": 336,  # 1 days of hourly data
+           "freq_factor": 1
+        }
+    },
     "predict_last_n": 24,
     "unique_prediction_blocks_training": True,
     "predict_last_n_evaluation": 24,
     "unique_prediction_blocks_evaluation": True,
-    "dynamic_embeddings": False,
+    "dynamic_embeddings": True,
     "hidden_size": 128,
     "batch_size_training": 256,   # Edu sets 256
     "batch_size_evaluation": 1024,  # Edu sets 1024
@@ -212,7 +224,7 @@ running_device = "gpu"  # cpu or gpu
 
 
 # Create folder to store the results
-path_save_folder = "./results/US_exp1/" + experiment_name + "_seed_" + str(seed)
+path_save_folder = "./results/US_exp2/" + experiment_name + "_seed_" + str(seed)
 create_folder(folder_path=path_save_folder)
 
 weights_save_path = os.path.join(path_save_folder, "weights")
@@ -720,6 +732,7 @@ plt.savefig(os.path.join(test_result_save_path, "NSE_Histogram.png"), bbox_inche
 # In case I already trained an LSTM I can re-construct the model
 model = modelclass(model_configuration=model_configuration).to(device)
 model.load_state_dict(torch.load(path_save_folder + "/weights/epoch_30", map_location=device))
+
 print("***************  Loading the final_epoch model  ****************")
 
 test_result_save_path = os.path.join(path_save_folder, "test_results_final_epoch")

@@ -61,16 +61,16 @@ print(f"Using random seed: {seed}")
 
 
 # # (1) weekly-daily-hourly resolution
-# n_month_in_weekly = 0   # the first n month in weekly resolution 
-# n_days_in_hourly = 1     # the last n days in hourly resolution, and the remaining days are in daily resolution
+# n_week_in_weekly = 26   # half year 
+# n_days_in_hourly = 28     # the last n days in hourly resolution, and the remaining days are in daily resolution
 
-# n_steps_in_weekly = n_month_in_weekly * 4
+# n_steps_in_weekly = n_week_in_weekly
 # freq_factor_in_weekly = 24 * 7
 
 # n_steps_in_hourly = n_days_in_hourly * 24
 # freq_factor_in_hourly = 1
 
-# n_steps_in_daily = 365 - (n_month_in_weekly * 4 * 7) - n_days_in_hourly
+# n_steps_in_daily = 365 - (n_week_in_weekly * 7) - n_days_in_hourly
 # freq_factor_in_daily = 24
 
 # print("1W: n_steps: ", n_steps_in_weekly, " freqs_factor: ", freq_factor_in_weekly)
@@ -103,8 +103,8 @@ print(f"Using random seed: {seed}")
 
 
 # Define experiment name
-# experiment_name = "14_days"
 experiment_name = "2_days"
+# experiment_name = "28_days"
 
 # paths to access the information
 # My PC
@@ -182,8 +182,12 @@ model_configuration = {
     "no_of_layers": 1,
     "seq_length": 365 * 24,  # 1 year of hourly data
     "custom_freq_processing": {
+        "1W": {
+           "n_steps": 26,  
+           "freq_factor": 168,
+        },
         "1D": {
-           "n_steps": 363,  # ~2 months (197 - 1 days)
+           "n_steps": 181,  # ~2 months (197 - 1 days)
            "freq_factor": 24,  # 24 hours in a day
         },
         "1h": {
@@ -195,7 +199,7 @@ model_configuration = {
     "unique_prediction_blocks_training": True,
     "predict_last_n_evaluation": 24,
     "unique_prediction_blocks_evaluation": True,
-    "dynamic_embeddings": False,
+    "dynamic_embeddings": True,
     "hidden_size": 128,
     "batch_size_training": 256,   # Edu sets 256
     "batch_size_evaluation": 1024,  # Edu sets 1024
@@ -220,7 +224,7 @@ running_device = "gpu"  # cpu or gpu
 
 
 # Create folder to store the results
-path_save_folder = "./results/US_exp1/" + experiment_name + "_seed_" + str(seed)
+path_save_folder = "./results/US_exp2/" + experiment_name + "_seed_" + str(seed)
 create_folder(folder_path=path_save_folder)
 
 weights_save_path = os.path.join(path_save_folder, "weights")
