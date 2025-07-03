@@ -329,7 +329,7 @@ training_dataset = Datasetclass(
 training_dataset.calculate_basin_std()
 training_dataset.calculate_global_statistics(path_save_scaler=path_save_folder)
 training_dataset.standardize_data()
-
+print(f"Number of training sequences: {len(training_dataset)}")
 
 # In[ ]:
 
@@ -391,7 +391,8 @@ for entity in entities_ids:
     dataset.scaler = training_dataset.scaler
     dataset.standardize_data(standardize_output=False)
     validation_dataset[entity] = dataset
-
+total_sequences = sum(len(dataset) for dataset in validation_dataset.values())
+print(f"Total number of validation sequences: {total_sequences}")
 
 # In[ ]:
 
