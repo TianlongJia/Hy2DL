@@ -256,6 +256,7 @@ class BaseDataset(Dataset):
                 x_lstm = x_lstm[current_index : current_index + freq_info["n_steps"] * freq_info["freq_factor"], :]
                 # Process values using the frequency factor (by averaging)
                 x_lstm = x_lstm.reshape(freq_info["n_steps"], freq_info["freq_factor"], x_lstm.shape[1]).mean(dim=1)
+                x_lstm = x_lstm * (freq_info["freq_factor"] ** 0.5)  # correct std by multiplying with sqrt(freq_factor) by Tianlong
                 # Add a flag if we do not have custom embeddings for the different frequencies
                 if not self.dynamic_embedding:
                     x_lstm = torch.cat([x_lstm, torch.ones(freq_info["n_steps"], 1) * index], dim=1)
