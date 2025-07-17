@@ -103,8 +103,8 @@ print(f"Using random seed: {seed}")
 
 
 # Define experiment name
-experiment_name = "1_days"
-# experiment_name = "28_days"
+# experiment_name = "1_days"
+experiment_name = "28_days"
 
 # paths to access the information
 # My PC
@@ -187,11 +187,11 @@ model_configuration = {
            "freq_factor": 168,
         },
         "1D": {
-           "n_steps": 182,  # ~2 months (197 - 1 days)
+           "n_steps": 155,  # ~2 months (197 - 1 days)
            "freq_factor": 24,  # 24 hours in a day
         },
         "1h": {
-           "n_steps": 24,  # 1 days of hourly data
+           "n_steps": 672,  # 1 days of hourly data
            "freq_factor": 1
         }
     },
@@ -329,7 +329,7 @@ training_dataset = Datasetclass(
 training_dataset.calculate_basin_std()
 training_dataset.calculate_global_statistics(path_save_scaler=path_save_folder)
 training_dataset.standardize_data()
-print(f"Number of training sequences: {len(training_dataset)}")
+
 
 # In[ ]:
 
@@ -391,8 +391,7 @@ for entity in entities_ids:
     dataset.scaler = training_dataset.scaler
     dataset.standardize_data(standardize_output=False)
     validation_dataset[entity] = dataset
-total_sequences = sum(len(dataset) for dataset in validation_dataset.values())
-print(f"Total number of validation sequences: {total_sequences}")
+
 
 # In[ ]:
 
@@ -404,8 +403,6 @@ print(f"Total number of validation sequences: {total_sequences}")
 
 
 # ## 5. Train Model
-# 
-# To do: Save the val_results.pickle of the best epoch
 
 # In[ ]:
 

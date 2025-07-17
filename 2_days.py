@@ -103,7 +103,7 @@ print(f"Using random seed: {seed}")
 
 
 # Define experiment name
-experiment_name = "1_days"
+experiment_name = "2_days"
 # experiment_name = "28_days"
 
 # paths to access the information
@@ -187,11 +187,11 @@ model_configuration = {
            "freq_factor": 168,
         },
         "1D": {
-           "n_steps": 182,  # ~2 months (197 - 1 days)
+           "n_steps": 181,  # ~2 months (197 - 1 days)
            "freq_factor": 24,  # 24 hours in a day
         },
         "1h": {
-           "n_steps": 24,  # 1 days of hourly data
+           "n_steps": 48,  # 1 days of hourly data
            "freq_factor": 1
         }
     },

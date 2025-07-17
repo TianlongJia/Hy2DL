@@ -62,7 +62,7 @@ print(f"Using random seed: {seed}")
 
 # # (1) weekly-daily-hourly resolution
 # n_week_in_weekly = 26   # half year 
-# n_days_in_hourly = 28     # the last n days in hourly resolution, and the remaining days are in daily resolution
+# n_days_in_hourly = 4     # the last n days in hourly resolution, and the remaining days are in daily resolution
 
 # n_steps_in_weekly = n_week_in_weekly
 # freq_factor_in_weekly = 24 * 7
@@ -103,7 +103,7 @@ print(f"Using random seed: {seed}")
 
 
 # Define experiment name
-experiment_name = "1_days"
+experiment_name = "4_days"
 # experiment_name = "28_days"
 
 # paths to access the information
@@ -187,11 +187,11 @@ model_configuration = {
            "freq_factor": 168,
         },
         "1D": {
-           "n_steps": 182,  # ~2 months (197 - 1 days)
+           "n_steps": 179,  # ~2 months (197 - 1 days)
            "freq_factor": 24,  # 24 hours in a day
         },
         "1h": {
-           "n_steps": 24,  # 1 days of hourly data
+           "n_steps": 96,  # 1 days of hourly data
            "freq_factor": 1
         }
     },
