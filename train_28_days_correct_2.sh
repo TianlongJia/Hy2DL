@@ -9,5 +9,6 @@
 #SBATCH --mail-user=tianlong.jia@kit.edu
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.9/bin/activate
-
-SEED=999 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/14_days.py
+ 
+SEED=888 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/28_days.py 
+SEED=999 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/28_days.py
