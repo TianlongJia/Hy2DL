@@ -8,6 +8,8 @@
 #SBATCH --mail-type=BEGIN,END,FAIL
 #SBATCH --mail-user=tianlong.jia@kit.edu
 
+unset LD_LIBRARY_PATH
+
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.11/bin/activate
 
 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/notebooks/LSTM_Forecast_DE.py
