@@ -49,11 +49,11 @@ color_palette = {"observed": "#377eb8", "simulated": "#4daf4a"}
 experiment_settings = {}
 
 # Experiment name
-experiment_settings["experiment_name"] = "LSTM_Forecast_DE_1582_basins"
+experiment_settings["experiment_name"] = "LSTM_Forecast_DE_292_basins"
 
 # paths to access the information
 experiment_settings["path_data"] = "../data/CAMELS_DE"
-experiment_settings["path_entities"] = "../data/basin_id/basins_camels_de_hourly_1582.txt"
+experiment_settings["path_entities"] = "../data/basin_id/basins_camels_de_hourly_292_Bayern.txt"
 
 # dynamic forcings and target
 dynamic_input = {

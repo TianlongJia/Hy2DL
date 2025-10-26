@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name="forecast_1582_basins"
+#SBATCH --job-name="forecast_292_basins"
 #SBATCH --ntasks=1
 #SBATCH --time=72:00:00
 #SBATCH --partition=normal
