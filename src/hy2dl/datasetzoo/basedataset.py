@@ -172,7 +172,15 @@ class BaseDataset(Dataset):
             valid_samples = np.where(flag)[0]
 
             # When working seq-seq, if we want non-overlapping blocks, we calculate their respective starting indices.
-            if self.cfg.unique_prediction_blocks:
+            if time_period == "training":
+              if self.cfg.unique_prediction_blocks_train:
+                block_id = np.arange(len(df_ts) // self.cfg.predict_last_n) * self.cfg.predict_last_n + (
+                    self.cfg.predict_last_n - 1
+                )
+                valid_samples = block_id[flag[block_id]]
+            
+            elif time_period in ["validation", "testing"]:
+              if self.cfg.unique_prediction_blocks_val:
                 block_id = np.arange(len(df_ts) // self.cfg.predict_last_n) * self.cfg.predict_last_n + (
                     self.cfg.predict_last_n - 1
                 )

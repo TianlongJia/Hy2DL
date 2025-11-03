@@ -506,13 +506,29 @@ class Config(object):
     def training_period(self) -> list[str]:
         return self._cfg.get("training_period")
 
-    @property
-    def unique_prediction_blocks(self) -> bool:
-        return self._cfg.get("unique_prediction_blocks", False)
+    # @property
+    # def unique_prediction_blocks(self) -> bool:
+    #     return self._cfg.get("unique_prediction_blocks", False)
 
-    @unique_prediction_blocks.setter
-    def unique_prediction_blocks(self, value: bool) -> None:
-        self._cfg["unique_prediction_blocks"] = value
+    # @unique_prediction_blocks.setter
+    # def unique_prediction_blocks(self, value: bool) -> None:
+    #     self._cfg["unique_prediction_blocks"] = value
+
+    @property
+    def unique_prediction_blocks_train(self) -> bool:
+        return self._cfg.get("unique_prediction_blocks_train", False)
+
+    @unique_prediction_blocks_train.setter
+    def unique_prediction_blocks_train(self, value: bool) -> None:
+        self._cfg["unique_prediction_blocks_train"] = value
+    
+    @property
+    def unique_prediction_blocks_val(self) -> bool:
+        return self._cfg.get("unique_prediction_blocks_val", False)
+
+    @unique_prediction_blocks_val.setter
+    def unique_prediction_blocks_val(self, value: bool) -> None:
+        self._cfg["unique_prediction_blocks_val"] = value
 
     @property
     def validate_every(self) -> int:
