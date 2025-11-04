@@ -8,7 +8,7 @@
 #SBATCH --mail-type=BEGIN,END,FAIL
 #SBATCH --mail-user=tianlong.jia@kit.edu
 
-unset LD_LIBRARY_PATH
+unset LD_LIBRARY_PATH  # load cuDNN intalled along with pytorch, rather than the cuDNN in Haicore system
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.11/bin/activate
 
