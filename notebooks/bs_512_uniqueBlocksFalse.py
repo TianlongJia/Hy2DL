@@ -8,7 +8,7 @@
 # ***Authors:***
 # - Eduardo Acuña Espinoza (eduardo.espinoza@kit.edu)
 
-# In[1]:
+# In[2]:
 
 
 # Import necessary packages
@@ -49,7 +49,7 @@ color_palette = {"observed": "#377eb8", "simulated": "#4daf4a"}
 experiment_settings = {}
 
 # Experiment name
-experiment_settings["experiment_name"] = "LSTM_Forecast_DE_less_samples"
+experiment_settings["experiment_name"] = "bs_512_uniqueBlocksFalse"
 # experiment_settings["experiment_name"] = "test"
 
 # paths to access the information
@@ -126,9 +126,9 @@ experiment_settings["testing_period"] = ["2019-01-01 01:00:00", "2023-12-31 23:0
 
 # model configuration
 experiment_settings["hidden_size"] = 128
-experiment_settings["batch_size_training"] = 256
+experiment_settings["batch_size_training"] = 512    # original: 256
 experiment_settings["batch_size_evaluation"] = 1024
-experiment_settings["epochs"] = 12
+experiment_settings["epochs"] = 12  # 12
 experiment_settings["dropout_rate"] = 0.4
 experiment_settings["learning_rate"] = {1: 1e-3, 5: 5e-4, 7: 1e-4}
 experiment_settings["validate_every"] = 3
@@ -153,7 +153,7 @@ experiment_settings["seq_length_forecast"] = 24
 experiment_settings["predict_last_n"] = 24
 
 # experiment_settings["unique_prediction_blocks"] = False
-experiment_settings["unique_prediction_blocks_train"] = True
+experiment_settings["unique_prediction_blocks_train"] = False
 experiment_settings["unique_prediction_blocks_val"] = False
 
 experiment_settings["dynamic_embedding"] = {"hiddens": [10, 10, 10]}
@@ -174,7 +174,7 @@ experiment_settings["model"] = "forecast_LSTM"
 experiment_settings["initial_forget_bias"] = 3.0
 
 
-# In[3]:
+# In[5]:
 
 
 # Read experiment settings
@@ -185,7 +185,7 @@ config.dump()
 
 # Part 2. Create datasets and dataloaders used to train/validate the model
 
-# In[4]:
+# In[6]:
 
 
 # Get dataset class
@@ -237,7 +237,7 @@ for key, value in next(iter(train_loader)).items():
 config.logger.info("")  # prints a blank line
 
 
-# In[5]:
+# In[7]:
 
 
 # In evaluation (validation and testing) we will create an individual dataset per basin
@@ -266,7 +266,7 @@ config.logger.info(
 
 # Part 3. Train model
 
-# In[6]:
+# In[8]:
 
 
 # Initialize model
@@ -423,7 +423,7 @@ config.logger.info(f"Total training time: {datetime.timedelta(seconds=int(time.t
 # model.load_state_dict(torch.load(config.path_save_folder / "model" / "model_epoch_20", map_location=config.device))
 
 
-# In[7]:
+# In[9]:
 
 
 # Read previously generated scaler
@@ -431,7 +431,7 @@ with open(config.path_save_folder / "scaler.pickle", "rb") as file:
     scaler = pickle.load(file)
 
 
-# In[8]:
+# In[10]:
 
 
 # In evaluation (validation and testing) we will create an individual dataset per basin
@@ -459,7 +459,7 @@ config.logger.info(
 )
 
 
-# In[9]:
+# In[11]:
 
 
 config.logger.info("Testing model".center(60, "-"))
@@ -520,7 +520,7 @@ config.logger.info(f"Total testing time: {datetime.timedelta(seconds=int(time.ti
 
 # Part 5. Initial analysis
 
-# In[12]:
+# In[13]:
 
 
 df_NSE = forecast_NSE(results=test_results)
@@ -586,14 +586,14 @@ plt.savefig(config.path_save_folder / "Test_NSE_PNSE_boxplot.jpg")
 plt.show()
 
 
-# In[14]:
+# In[ ]:
 
 
 # Plot random basin and date
 basin_to_analyze = random.sample(list(test_results.keys()), 1)[0]
 
 # Establish period of interest as 48 hours before and after a random peak
-date = random.sample(list(test_results[basin_to_analyze].Observed.nlargest(200).index), 1)[0]
+date = random.sample(list(test_results[basin_to_analyze].Observed.nlargest(200).index), 1)[0]  # select one of the max 200 peaks
 window_size = 48
 start_date = date - pd.Timedelta(hours=window_size)
 end_date = date + pd.Timedelta(hours=window_size)

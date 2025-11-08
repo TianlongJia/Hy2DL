@@ -12,5 +12,6 @@ unset LD_LIBRARY_PATH  # load cuDNN intalled along with pytorch, rather than the
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.11/bin/activate
 
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/notebooks/LSTM_Forecast_DE.py
+python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/notebooks/bs_512_uniqueBlocksTrue.py
+
 
