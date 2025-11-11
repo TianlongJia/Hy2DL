@@ -1,0 +1,156 @@
+[33m50872bb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m  test from Haicore
+[33m3284191[m  test from Haicore
+[33m94a2529[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Read ICON D2 data
+[33mbf12422[m update
+[33m493b9e7[m update
+[33ma8f2349[m update
+[33me1f2f1f[m  test from Haicore
+[33ma688127[m update
+[33m0827ccb[m  test from Haicore
+[33ma8f54eb[m update test
+[33m19b758b[m experiment with less training samples
+[33md0df4c2[m update
+[33mf67fec9[m  test from Haicore
+[33ma896f7b[m  test from Haicore
+[33m14ab5b8[m update
+[33mba69d27[m update 292 basins in Bayern to test
+[33md51996d[m  test from Haicore
+[33m918122b[m upload task for 1582 basins
+[33m797d558[m  test from Haicore
+[33m3499bc8[m update
+[33mcd540a1[m update from my PC
+[33mbe9ab99[m  test from Haicore
+[33mb54b2c5[m test US
+[33mf788871[m update my optimization files to the Edui's new code
+[33ma3e4757[m add () to os.cpu_count to print number of workers and not the method
+[33m90078b9[m update citation link
+[33mb72d112[m Merge pull request #17 from eduardoAcunaEspinoza/dev_v1.0.1
+[33mc0f8537[m Fixed links
+[33m10ef24f[m update version
+[33me44bd13[m Updatede readme from data folder
+[33m2a426ec[m update documentation
+[33m31f2db9[m Add bechmarks, modify read me, modify forecast norebook
+[33mc6b9026[m Merge pull request #16 from manuel-dev
+[33m76e4899[m Probabilistic experiment
+[33me08b5e8[m More support for `Distribution`
+[33m7732088[m Add documentation
+[33m86074e2[m The variable is 'num_mixture_components'
+[33m0ee2e63[m Merge remote-tracking branch 'origin/main' into manuel-dev
+[33mc596217[m Config and notebook for MDN
+[33mb37e464[m Documentation MDN
+[33ma3ffe97[m Merge pull request #15 from eduardoAcunaEspinoza/config_improvements
+[33m017a96a[m deleted benchmark feng
+[33m8f2b77f[m setter for experiment_name
+[33mce08a39[m always add random seed to path_save_folder
+[33m2a57412[m Merge pull request #14 from eduardoAcunaEspinoza/epo4hydro
+[33md2fb6ed[m Update bechmarks and fix bug in logger
+[33m0d78b23[m update path_save_folder
+[33m7668730[m changes in basedateset, config and inputlayer.
+[33m6e99a20[m Merge pull request #13 from eduardoAcunaEspinoza/epo4hydro
+[33m443dbd9[m Delete run-tests.yml
+[33me4aad12[m Delete run-tests.yml
+[33m7fc5486[m Merge branch 'manuel-dev' into epo4hydro
+[33m0ae4d39[m Remove from custo_reservoir
+[33m1e18516[m Update README.md
+[33m2c313e9[m Remove unneeded module
+[33m78f4b27[m update notebooks with config.init_experiments()
+[33m3db470b[m add github workflow to pip
+[33m063638a[m update readme and import math module in loss
+[33m64e1866[m Add 'custom_reservoir' for tutorial
+[33m734d405[m Add 'hs' to pred dict
+[33meaf13d7[m Update README.md
+[33m425229d[m update documentation
+[33m9e8d085[m update pyproject and lock
+[33ma354c4c[m Update config.py
+[33m91c2a47[m Synced environment
+[33m4cc5975[m Remove unused import
+[33m1b179d8[m Merge branch 'epo4hydro' into manuel-dev
+[33ma4a6c7a[m Development MDN
+[33m1288da8[m Subset of CAMELS-US
+[33mbcbc7af[m Scripts setup
+[33m2bba497[m Update Hy2DL.png
+[33m476828b[m Update Hy2DL.png
+[33m0046feb[m Update Hy2DL.png
+[33mdff45f1[m update logo
+[33md0eb8bc[m update group masking in input layer
+[33m0f973e9[m include format info in pyproject
+[33mac1d48e[m update logo
+[33m4397df1[m update logo
+[33mdaeb343[m adopt src structure
+[33m0501c64[m Add MDN
+[33mdca3928[m Add comments
+[33mf88ec52[m Add nan_handling strategies
+[33m8c08df9[m Avoid running out of memory
+[33ma259037[m Initial 'quantile' method using Newton-Raphson
+[33m0b942c9[m Implemented the 'logpdf' and 'cdf' methods
+[33mad8b895[m Change import
+[33m8676106[m remove lux dataset
+[33m02c1926[m Add 'xarray'
+[33md1e25c5[m format changes and add ipykernel to dependencies
+[33mbf35a35[m Bump version to '2.1.0'
+[33m0927f79[m Change to tensor
+[33m70c67ac[m Initial NLL implementation
+[33m87c5fdb[m Initial MDN implementation
+[33ma134763[m Add 'dev_mode'
+[33m638e00b[m Update numpy
+[33mbf778fb[m Adopted 'uv' based build system
+[33m6117555[m Adopted 'src' structure
+[33ma827ed6[m Standard Python .gitignore
+[33m7358d5f[m Merge pull request #7 from eduardoAcunaEspinoza/epo4hydro
+[33me5a2f9c[m remove library
+[33md181bb5[m Multiple major changes
+[33m3c492d4[m major update
+[33m9d6479f[m include camels de hourly and modify validate samples
+[33meca2fe6[m Replace print with warning
+[33m758b7b7[m Fix docstring clip_grad_and_step
+[33m9111916[m Merge pull request #6 from eduardoAcunaEspinoza/optimizer_step_method
+[33mfc140dd[m use optimizer.clip_grad_and_step
+[33m05173ce[m use optimizer.clip_grad_and_step
+[33m13858c2[m Fix gradient clipping to use optimizer parameters and handle RuntimeError for stability during optimization
+[33m1243c0f[m Add gradient clipping and optimization step handling to Optimizer class with gradient instability handling
+[33m8a68e85[m Update basedataset.py
+[33m2a816f3[m Update basedataset.py
+[33m9c70133[m Merge pull request #5 from manuel-alvarez-chaves/main
+[33me3c1c6f[m Update pyproject.toml
+[33m3a75f6b[m Add LICENSE
+[33m985ce56[m RSE update
+[33m8b25ded[m fix bug in standardization routine
+[33m86cba8d[m fix path_entities to be basins_camels_de1582.txt
+[33mb8335c2[m Merge pull request #4 from eduardoAcunaEspinoza/camels_de_fixes
+[33m4f59f3c[m target name is "discharge_spec_obs", not "discharge_spec"
+[33m38f0592[m removed ID "DE411110" as it is not part of CAMELS-DE
+[33m1de30e4[m Update CAMELS_DE class docstring to include version and references
+[33m508dcb5[m Update README.md
+[33mc9428a7[m update documentation files
+[33mbfabe07[m Update .readthedocs.yaml
+[33mb451133[m update files to generate documentation
+[33m74c3e24[m Update requirements.txt
+[33mfde82c9[m Create .readthedocs.yaml
+[33med269e5[m Update index.rst
+[33me858bb1[m update docstrings with description about ablation flag
+[33mab9bbd1[m Merge pull request #3 from bheudorfer/main
+[33me1a7d01[m added ablation flag handling
+[33m38df84b[m Update README.md
+[33m391a1ee[m Merge pull request #2 from eduardoAcunaEspinoza/dev_caravan
+[33me3c7e78[m cleaning outputs
+[33m319467a[m run from cluster
+[33m62abeb0[m caravan experiment
+[33m6ae49be[m caravan.py
+[33m5e997a3[m caravan folder
+[33me0e6ebe[m minor language correction
+[33m94773ac[m Updated Readme
+[33m5817504[m Warning when std is zero
+[33mcdb2e75[m Update paths in notebooks
+[33m103c4c6[m Update readme.md
+[33m2dd7e5c[m Update readme.md
+[33m56f8ac9[m Update readme.md
+[33ma90470a[m Update readme.md
+[33mdac46a0[m Update README.md
+[33m26b5271[m Format changes and update of hybrid notebooks
+[33mf0a5a9d[m Merge pull request #1 from eduardoAcunaEspinoza/package_updates
+[33m6cc7c95[m ignore build files
+[33m64012e3[m extended setup.py
+[33m3fd53a3[m add MANIFEST.in to include non Python files in the built package
+[33m20ca1cb[m added LICENSE file
+[33m3380b65[m add version file
+[33m2848adc[m initial_commit
