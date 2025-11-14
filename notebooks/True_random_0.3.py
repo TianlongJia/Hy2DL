@@ -595,8 +595,8 @@ df_PNSE = forecast_PNSE(results=test_results)
 
 # Calculate the median forecast_NSE across all basins for each lead time
 # Then, output the average value across all lead times
-config.logger.info("The avearge of 'median forecast_NSE' across all lead times: ", f"{df_NSE.median().mean():.3f}")
-config.logger.info("The avearge of 'median PNSE_NSE' across all lead times: ", f"{df_PNSE.median().mean():.3f}")
+config.logger.info("The avearge of 'median forecast_NSE' across all lead times: %s", f"{df_NSE.median().mean():.3f}")
+config.logger.info("The avearge of 'median PNSE_NSE' across all lead times: %s", f"{df_PNSE.median().mean():.3f}")
 
 fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(15, 12), sharex=True)  # Share x-axis
 
