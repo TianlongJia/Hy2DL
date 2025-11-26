@@ -71,7 +71,6 @@ class Hourly_CAMELS_DE(CAMELS_DE):
         df_resampled = pd.read_csv(path_daily_timeseries, index_col="date", parse_dates=["date"])
         df_resampled = df_resampled.loc[:, "precipitation_mean"].resample("1h").ffill() / 24
         df_resampled = df_resampled.loc[df_hourly.index.intersection(df_resampled.index)]
-
         # Create new column where gaps in hourly precipitation are filled with the daily resampled version
         df_hourly["precipitation_resampled"] = df_hourly["precipitation_sum_mean"].combine_first(df_resampled)
 

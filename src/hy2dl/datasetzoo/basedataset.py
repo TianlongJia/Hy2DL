@@ -198,7 +198,7 @@ class BaseDataset(Dataset):
                 self.x_d[id] = {
                     col: torch.tensor(df_ts[col].values, dtype=torch.float32) for col in self.unique_dynamic_input
                 }
-
+                
                 # Store target data as dictionary indexed by basin.
                 self.y_obs[id] = torch.tensor(df_ts[self.cfg.target].values, dtype=torch.float32)
 
@@ -234,6 +234,7 @@ class BaseDataset(Dataset):
 
     def __getitem__(self, id) -> dict[str, torch.Tensor | np.ndarray | dict[str, torch.Tensor]]:
         """Function used to construct the elements of the batches"""
+
         basin, i = self.valid_entities[id]
         sample = {}
         # --------------------------

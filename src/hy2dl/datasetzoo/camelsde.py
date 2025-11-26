@@ -104,4 +104,5 @@ class CAMELS_DE(BaseDataset):
         path_timeseries = self.cfg.path_data / "timeseries" / f"CAMELS_DE_hydromet_timeseries_{catch_id}.csv"
         # load time series
         df = pd.read_csv(path_timeseries, index_col="date", parse_dates=["date"])
+
         return df
