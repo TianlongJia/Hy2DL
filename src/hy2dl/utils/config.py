@@ -74,8 +74,8 @@ class Config(object):
                         raise ValueError("Groups of variables are only supported with a `nan_handling_method`")
 
     def _check_embeddings(self):
-        # if isinstance(self.dynamic_input, dict) and self.dynamic_embedding is None:
-        #     raise ValueError("`dynamic_input` as dictionary is only supported when `dynamic_embedding` is specified")
+        if isinstance(self.dynamic_input, dict) and self.dynamic_embedding is None:
+            raise ValueError("`dynamic_input` as dictionary is only supported when `dynamic_embedding` is specified")
 
         if self.static_input is None and self.static_embedding is not None:
             raise ValueError("`static_embedding` requires specification of `static_input`")
@@ -87,17 +87,17 @@ class Config(object):
         if isinstance(self.nan_handling_method, str) and self.dynamic_embedding is None:
             raise ValueError("`dynamic_embedding` must be specified when using `nan_handling_method`")
 
-        # if (
-        #     self.forecast_input
-        #     and self.dynamic_embedding is None
-        #     and len(self.forecast_input) != len(self.dynamic_input)
-        # ):
-        #     raise ValueError(
-        #         (
-        #             "`dynamic_input` and `forecast_input` have different dimensions. "
-        #             "This is supported only if `dynamic_embedding` is specified"
-        #         )
-        #     )
+        if (
+            self.forecast_input
+            and self.dynamic_embedding is None
+            and len(self.forecast_input) != len(self.dynamic_input)
+        ):
+            raise ValueError(
+                (
+                    "`dynamic_input` and `forecast_input` have different dimensions. "
+                    "This is supported only if `dynamic_embedding` is specified"
+                )
+            )
 
     def _check_models(self):
         """Check for specific configurations required by certain models."""

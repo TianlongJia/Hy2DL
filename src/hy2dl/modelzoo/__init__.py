@@ -5,6 +5,7 @@ from hy2dl.modelzoo.cudalstm import CudaLSTM
 from hy2dl.modelzoo.forecast_lstm import ForecastLSTM
 from hy2dl.modelzoo.hybrid import Hybrid
 from hy2dl.modelzoo.lstmmdn import LSTMMDN
+from hy2dl.modelzoo.cpc_lstm import CPC_Lstm
 from hy2dl.utils.config import Config
 
 
@@ -30,6 +31,8 @@ def get_model(cfg: Config) -> nn.Module:
         model = Hybrid(cfg=cfg)
     elif cfg.model.lower() == "lstmmdn":
         model = LSTMMDN(cfg=cfg)
+    elif cfg.model.lower() == "CPC_Lstm":
+        model = CPC_Lstm(cfg=cfg)
     else:
         raise NotImplementedError(f"{cfg.model} not implemented or not linked in `get_model()`")
 
