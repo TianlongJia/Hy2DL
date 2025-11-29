@@ -10,6 +10,7 @@ import yaml
 from hy2dl.utils.distributions import Distribution
 from hy2dl.utils.logging import get_logger
 
+from typing import Dict, Optional, Union
 
 class Config(object):
     """Read run configuration from the specified path or dictionary and parse it into a configuration object.
@@ -73,8 +74,8 @@ class Config(object):
                         raise ValueError("Groups of variables are only supported with a `nan_handling_method`")
 
     def _check_embeddings(self):
-        if isinstance(self.dynamic_input, dict) and self.dynamic_embedding is None:
-            raise ValueError("`dynamic_input` as dictionary is only supported when `dynamic_embedding` is specified")
+        # if isinstance(self.dynamic_input, dict) and self.dynamic_embedding is None:
+        #     raise ValueError("`dynamic_input` as dictionary is only supported when `dynamic_embedding` is specified")
 
         if self.static_input is None and self.static_embedding is not None:
             raise ValueError("`static_embedding` requires specification of `static_input`")
@@ -86,17 +87,17 @@ class Config(object):
         if isinstance(self.nan_handling_method, str) and self.dynamic_embedding is None:
             raise ValueError("`dynamic_embedding` must be specified when using `nan_handling_method`")
 
-        if (
-            self.forecast_input
-            and self.dynamic_embedding is None
-            and len(self.forecast_input) != len(self.dynamic_input)
-        ):
-            raise ValueError(
-                (
-                    "`dynamic_input` and `forecast_input` have different dimensions. "
-                    "This is supported only if `dynamic_embedding` is specified"
-                )
-            )
+        # if (
+        #     self.forecast_input
+        #     and self.dynamic_embedding is None
+        #     and len(self.forecast_input) != len(self.dynamic_input)
+        # ):
+        #     raise ValueError(
+        #         (
+        #             "`dynamic_input` and `forecast_input` have different dimensions. "
+        #             "This is supported only if `dynamic_embedding` is specified"
+        #         )
+        #     )
 
     def _check_models(self):
         """Check for specific configurations required by certain models."""
@@ -190,7 +191,7 @@ class Config(object):
             return yml_path_or_dict
         else:
             raise ValueError("yml_path_or_dict must be a Path (path to YAML file) or a dictionary.")
-
+        
     @staticmethod
     def _as_default_list(value: Any) -> list:
         """Convert a value to a list if it is not already a list."""
@@ -254,7 +255,44 @@ class Config(object):
             "activation": embedding.get("activation", "relu"),
             "dropout": embedding.get("dropout", 0.0),
         }
+    
+    def as_dict(self) -> dict:
+        """Return run configuration as dictionary.
+        
+        Returns
+        -------
+        dict
+            The run configuration, as defined in the .yml file.
+        """
+        return self._cfg
+    
+    def update_config(self, yml_path_or_dict: Union[Path, dict], dev_mode: bool = False):
+        """Update config arguments.
+        
+        Useful e.g. in the context of fine-tuning or when continuing to train from a checkpoint to adapt for example the
+        learning rate, train basin files or anything else.
+        
+        Parameters
+        ----------
+        yml_path_or_dict : Union[Path, dict]
+            Either a path to the new config file or a dictionary of configuration values. Each argument specified in
+            this file will overwrite the existing config argument.
+        dev_mode : bool, optional
+            If dev_mode is off, the config creation will fail if there are unrecognized keys in the passed config
+            specification. dev_mode can be activated either through this parameter or by setting ``dev_mode: True``
+            in `yml_path_or_dict`.
 
+        Raises
+        ------
+        ValueError
+            If the passed configuration specification is neither a Path nor a dict, or if `dev_mode` is off (default)
+            and the config file or dict contain unrecognized keys.
+        """
+        new_config = Config(yml_path_or_dict, dev_mode=dev_mode)
+
+        self._cfg.update(new_config.as_dict())
+    
+    
     # -----------------
     # From this point forward, we define properties to access the configuration values.
     # -----------------
@@ -506,14 +544,27 @@ class Config(object):
     def training_period(self) -> list[str]:
         return self._cfg.get("training_period")
 
-    # @property
-    # def unique_prediction_blocks(self) -> bool:
-    #     return self._cfg.get("unique_prediction_blocks", False)
+    @property
+    def unique_prediction_blocks(self) -> bool:
+        return self._cfg.get("unique_prediction_blocks", False)
 
-    # @unique_prediction_blocks.setter
-    # def unique_prediction_blocks(self, value: bool) -> None:
-    #     self._cfg["unique_prediction_blocks"] = value
+    @unique_prediction_blocks.setter
+    def unique_prediction_blocks(self, value: bool) -> None:
+        self._cfg["unique_prediction_blocks"] = value
 
+    @property
+    def validate_every(self) -> int:
+        return self._cfg.get("validate_every", 1)
+
+    @property
+    def validate_n_random_basins(self) -> int:
+        return self._cfg.get("validate_n_random_basins", 0)
+
+    @property
+    def validation_period(self) -> list[str]:
+        return self._cfg.get("validation_period")
+    
+    # ---------- TL add the following config  ---------  
     @property
     def unique_prediction_blocks_train(self) -> bool:
         return self._cfg.get("unique_prediction_blocks_train", False)
@@ -529,15 +580,28 @@ class Config(object):
     @unique_prediction_blocks_val.setter
     def unique_prediction_blocks_val(self, value: bool) -> None:
         self._cfg["unique_prediction_blocks_val"] = value
-
+    
     @property
-    def validate_every(self) -> int:
-        return self._cfg.get("validate_every", 1)
-
+    def pre_trained_path(self) -> Path:
+        path = self._cfg.get("pre_trained_path")
+        return Path(path) if path else None
+    
     @property
-    def validate_n_random_basins(self) -> int:
-        return self._cfg.get("validate_n_random_basins", 0)
-
+    def finetune_modules(self) -> Union[list[str], Dict[str, str]]:
+        finetune_modules = self._cfg.get("finetune_modules", [])
+        if finetune_modules is None:
+            return []
+        elif isinstance(finetune_modules, str):
+            return [finetune_modules]
+        elif isinstance(finetune_modules, dict) or isinstance(finetune_modules, list):
+            return finetune_modules
+        else:
+            raise ValueError(f"Unknown data type {type(finetune_modules)} for 'finetune_modules' argument.")
+    
     @property
-    def validation_period(self) -> list[str]:
-        return self._cfg.get("validation_period")
+    def is_finetuning(self) -> bool:
+        return self._cfg.get("is_finetuning", False)
+
+    @is_finetuning.setter
+    def is_finetuning(self, flag: bool):
+        self._cfg["is_finetuning"] = flag

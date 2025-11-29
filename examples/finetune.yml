@@ -1,0 +1,29 @@
+# --- Experiment configurations --------------------------------------------------------------------
+
+# experiment name, used as folder name
+experiment_name: cudalstm_1_basins_finetuned
+
+# place to store run directory (if empty runs are stored in $cwd$/runs/)
+# run_dir: ../results
+
+# files to specify basins used in fine_tuning (relative to code root or absolute path)
+path_entities: ../data/basin_id/finetune_basins_camels_de_1.txt
+
+# --- Training configuration -----------------------------------------------------------------------
+
+# The path to the directory of the pre-trained model. 
+pre_trained_path: ../results/LSTM_CAMELS_DE_seed_110
+
+# specify learning rates to use starting at specific epochs (0 is the initial learning rate)
+learning_rate:
+  1: 0.001
+  3: 0.0001
+
+# Number of training epochs
+epochs: 5
+
+# The module parts will be unfreezed during fine-tuning
+# For cudalstm, we can choose: 'embedding_hindcast', 'lstm', and 'linear'
+finetune_modules:
+- lstm
+- linear

@@ -1,0 +1,8 @@
+# pip install -r requirements.txt
+
+# This file includes the dependencies that are installed by Tianlong for testing
+
+# ----  neuralhydrology  ---
+numba==0.62.1
+ruamel.yaml==0.18.16
+tensorboard==2.20.0
