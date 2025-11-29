@@ -1,0 +1,30 @@
+# --- Experiment configurations --------------------------------------------------------------------
+
+# experiment name, used as folder name
+experiment_name: bs_256_uniqueBlocksFalse_random_1_finetuned
+
+# place to store run directory (if empty runs are stored in $cwd$/runs/)
+# run_dir: ../results
+
+# files to specify basins used in fine_tuning (relative to code root or absolute path)
+# path_entities: ../data/basin_id/basins_camels_de_hourly_292_Bayern.txt
+path_entities: ../data/basin_id/basins_camels_de_hourly_1.txt
+
+# --- Training configuration -----------------------------------------------------------------------
+
+# The path to the directory of the pre-trained model. 
+pre_trained_path: ../results/bs_256_uniqueBlocksFalse_random_1_seed_110
+
+# specify learning rates to use starting at specific epochs (0 is the initial learning rate)
+learning_rate: 0.0001
+
+# Number of training epochs
+epochs: 6
+
+# The module parts will be unfreezed during fine-tuning
+# For cudalstm, we can choose: 'embedding_hindcast', 'lstm', and 'linear'
+finetune_modules:
+- embedding_hindcast
+- embedding_forecast
+- lstm
+- linear

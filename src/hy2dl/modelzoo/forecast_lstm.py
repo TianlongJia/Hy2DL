@@ -16,6 +16,9 @@ class ForecastLSTM(nn.Module):
     cfg : Config
         Configuration object containing model hyperparameters and settings.
     """
+    
+    # specify submodules of the model that can later be used for finetuning. Names must match class attributes
+    module_parts = ['embedding_hindcast', 'embedding_forecast', 'lstm', 'linear']   # TL add it
 
     def __init__(self, cfg: Config):
         super().__init__()
