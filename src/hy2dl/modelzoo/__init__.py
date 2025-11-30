@@ -31,7 +31,7 @@ def get_model(cfg: Config) -> nn.Module:
         model = Hybrid(cfg=cfg)
     elif cfg.model.lower() == "lstmmdn":
         model = LSTMMDN(cfg=cfg)
-    elif cfg.model.lower() == "CPC_Lstm":
+    elif cfg.model.lower() == "cpc_lstm":
         model = CPC_Lstm(cfg=cfg)
     else:
         raise NotImplementedError(f"{cfg.model} not implemented or not linked in `get_model()`")

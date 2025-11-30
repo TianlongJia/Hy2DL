@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from hy2dl.modelzoo.inputlayer import InputLayer
+from hy2dl.modelzoo.inputlayer_cpc import InputLayer_CPC
 from hy2dl.utils.config import Config
 
 
@@ -24,7 +24,7 @@ class CPC_Lstm(nn.Module):
         super().__init__()
 
         # Embedding network
-        self.embedding_hindcast = InputLayer(cfg)
+        self.embedding_hindcast = InputLayer_CPC(cfg)
 
         # LSTM
         self.lstm = nn.LSTM(

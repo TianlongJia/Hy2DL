@@ -605,3 +605,8 @@ class Config(object):
     @is_finetuning.setter
     def is_finetuning(self, flag: bool):
         self._cfg["is_finetuning"] = flag
+
+    @property
+    def CPC_embedding(self) -> Optional[dict[str, str | float | list[int]]]:
+        embedding = self._cfg.get("CPC_embedding")
+        return None if embedding is None else Config._get_embedding_spec(embedding)
