@@ -9,7 +9,7 @@
 # 
 # 
 
-# In[16]:
+# In[1]:
 
 
 # Import necessary packages
@@ -134,6 +134,8 @@ for key, value in next(iter(train_loader)).items():
 config.logger.info("")  # prints a blank line
 
 
+# ## Load val dataset
+
 # In[4]:
 
 
@@ -160,15 +162,12 @@ config.logger.info(
 )
 
 
-# ## Load val dataset
-
 # ## Load pre-trained model weights
 
 # In[5]:
 
 
 # Initialize model
-set_random_seed(cfg=config)
 model = get_model(config).to(config.device)
 
 # Load pre-trained model from a checkpoint file
@@ -221,8 +220,10 @@ if unresolved_modules:
 
 # ## Fine-tune model
 
-# In[7]:
+# In[ ]:
 
+
+set_random_seed(cfg=config)
 
 # Initialize optimizer
 optimizer = Optimizer(cfg=config, model=model)
@@ -233,7 +234,7 @@ config.logger.info(f"{'':^16}|{'Trainining':^21}|{'Validation':^21}|")
 config.logger.info(f"{'Epoch':^5}|{'LR':^10}|{'Loss':^10}|{'Time':^10}|{'Metric':^10}|{'Time':^10}|")
 
 total_time = time.time()
-# Loop through epochs
+# Loop through epochs`
 for epoch in range(1, config.epochs + 1):
     train_time = time.time()
     loss_evol = []
@@ -241,7 +242,11 @@ for epoch in range(1, config.epochs + 1):
     model.train()
     # Loop through the different batches in the training dataset
     iterator = tqdm(
-        train_loader, desc=f"Epoch {epoch}/{config.epochs}. Training", unit="batches", ascii=True, leave=False
+        train_loader,
+        desc=f"Epoch {epoch}/{config.epochs}. Training",
+        unit="batches",
+        ascii=True,
+        leave=False,
     )
 
     for idx, sample in enumerate(iterator):
@@ -256,7 +261,7 @@ for epoch in range(1, config.epochs + 1):
         pred = model(sample)
         # Calcuate loss
         loss = nse_basin_averaged(y_sim=pred["y_hat"], y_obs=sample["y_obs"], per_basin_target_std=sample["std_basin"])
-        # print("per_basin_target_std:", sample["std_basin"])
+
         # Backpropagation (calculate gradients)
         loss.backward()
 
@@ -265,7 +270,7 @@ for epoch in range(1, config.epochs + 1):
 
         # Keep track of the loss per batch
         loss_evol.append(loss.item())
-        iterator.set_postfix({"loss": f"{np.mean(loss_evol):.3f}"})
+        iterator.set_postfix({"average loss": f"{np.mean(loss_evol):.3f}"})
 
         # remove elements from cuda to free memory
         del sample, pred
@@ -283,7 +288,7 @@ for epoch in range(1, config.epochs + 1):
         model.eval()
         validation_results = {}
         with torch.no_grad():
-            # If we define validate_n_random_basins as 0 or negative, we take all the basins. Otherwise, we randomly
+            # If we define validate_n_random_basins as 0 or negative, we take all the basins. Otherwise, we randomly 
             # select the number of basins defined in validate_n_random_basins
             if config.validate_n_random_basins <= 0:
                 validation_basin_ids = validation_dataset.keys()
@@ -309,33 +314,40 @@ for epoch in range(1, config.epochs + 1):
                     num_workers=config.num_workers,
                 )
 
-                df_ts = pd.DataFrame()
-                for sample in loader:
-                    sample = upload_to_device(sample, config.device)
-                    # Forward pass of the model
+                dates, observed_values, simulated_values = [], [], []
+                for i, sample in enumerate(loader):
+                    sample = upload_to_device(sample, config.device)  # upload tensors to device
                     pred = model(sample)
-                    # Backtransform information (unstandardize the output)
-                    y_std = validation_dataset[basin].scaler["y_std"].to(config.device)
-                    y_mean = validation_dataset[basin].scaler["y_mean"].to(config.device)
-                    y_sim = pred["y_hat"] * y_std + y_mean
-
-                    # join results in a dataframe (easier to evaluate/plot later)
-                    df = pd.DataFrame(
-                        {"y_obs": sample["y_obs"].flatten().cpu().detach(), "y_sim": y_sim.flatten().cpu().detach()},
-                        index=pd.to_datetime(sample["date"].flatten()),
+                    # backtransformed information
+                    y_sim = (
+                        pred["y_hat"] * validation_dataset[basin].scaler["y_std"].to(config.device)
                     )
-                    # print("sample[y_obs]: ", sample["y_obs"])
-                    # print("sample[y_sim]: ", y_sim)
-                    df_ts = pd.concat([df_ts, df], axis=0)
+                    y_mean = validation_dataset[basin].scaler["y_mean"].to(config.device)
+                    y_sim = y_sim + y_mean
 
-                    # remove elements from cuda to free memory
+                    # Join the results from the different batches
+                    dates.extend(sample["date_issue_fc"])
+                    observed_values.extend(sample["persistent_q"].cpu().detach().numpy())
+                    simulated_values.append(y_sim.cpu().detach().numpy())
+                    if i == len(loader) - 1:
+                        dates.extend(sample["date"][-1, :])
+                        observed_values.extend(sample["y_obs"][-1, :].cpu().detach().numpy())
+
+                    # remove from cuda
                     del sample, pred, y_sim
                     torch.cuda.empty_cache()
 
-                validation_results[basin] = df_ts
+                # Construct dataframe with observed and simulated values
+                df = pd.DataFrame(index=dates)
+                df["Observed"] = np.concatenate(observed_values, axis=0)
+                y_sim = np.squeeze(np.concatenate(simulated_values, axis=0), -1)
+                y_sim = np.concatenate((y_sim, np.full([y_sim.shape[1], y_sim.shape[1]], np.nan)), axis=0)
+                df[[f"lead_time_{i + 1}" for i in range(y_sim.shape[1])]] = y_sim
+
+                validation_results[basin] = df
 
             # average loss validation
-            loss_validation = nse(df_results=validation_results)
+            loss_validation = forecast_NSE(results=validation_results).median().mean()
             report += f"{loss_validation:^10.3f}|{str(datetime.timedelta(seconds=int(time.time() - val_time))):^10}|"
 
     # No validation
@@ -354,11 +366,15 @@ config.logger.info(f"Total training time: {datetime.timedelta(seconds=int(time.t
 
 # ## Test model
 
+# In[ ]:
+
+
 # # Read previously generated scaler
 # with open(config.path_save_folder / "scaler.pickle", "rb") as file:
 #     scaler = pickle.load(file)
 
-# In[8]:
+
+# In[9]:
 
 
 # In evaluation (validation and testing) we will create an individual dataset per basin
@@ -376,7 +392,7 @@ total_time = time.time()
 testing_dataset = {}
 for entity in iterator:
     dataset = Dataset(cfg=config, time_period="testing", check_NaN=False, entities_ids=entity)
-
+    # Load the training scaler
     dataset.scaler = training_dataset.scaler
     dataset.standardize_data(standardize_output=False)
     testing_dataset[entity] = dataset
@@ -386,7 +402,7 @@ config.logger.info(
 )
 
 
-# In[9]:
+# In[10]:
 
 
 config.logger.info("Testing model".center(60, "-"))
@@ -447,7 +463,7 @@ config.logger.info(f"Total testing time: {datetime.timedelta(seconds=int(time.ti
 
 # ## Initial analysis
 
-# In[17]:
+# In[11]:
 
 
 df_NSE = forecast_NSE(results=test_results)
@@ -518,7 +534,7 @@ plt.savefig(config.path_save_folder / "Test_NSE_PNSE_boxplot.jpg")
 plt.show()
 
 
-# In[13]:
+# In[12]:
 
 
 # Plot random basin and date
