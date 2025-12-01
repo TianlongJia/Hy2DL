@@ -8,9 +8,9 @@ from hy2dl.utils.config import Config
 class CPC_Lstm(nn.Module):
     """LSTM model.
 
-    This class implements an LSTM layer followed by a linear head, which maps the
-    hidden states produced by the LSTM into predictions for the specified time steps.
-
+    This class implements an CPC LSTM model, including CPC input layer, LSTM layer and a linear head, which maps the hidden states produced by the LSTM into predictions for the specified time steps.
+    The input layer embeds all inputs (dynamic and static variables). 
+    
     Parameters
     ----------
     cfg : Config

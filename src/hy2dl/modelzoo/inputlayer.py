@@ -112,6 +112,8 @@ class InputLayer(nn.Module):
             else x_d.new_zeros(x_d.shape[0], x_d.shape[1], 0)
         )
 
+        x = torch.cat([x_d, freq_flag, x_s], dim=2)
+
         return torch.cat([x_d, freq_flag, x_s], dim=2) if assemble else {"x_d": x_d, "freq_flag": freq_flag, "x_s": x_s}
 
     def _build_freq_flags(self, cfg: Config) -> dict[str, torch.Tensor]:

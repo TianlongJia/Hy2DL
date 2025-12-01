@@ -11,8 +11,9 @@ class InputLayer_CPC(nn.Module):
     """Input layer to preprocess static and dynamic inputs.
 
     This layer prepares the data before passing it to the main models. This can include running the dynamic and static
-    attributes through embedding networks, preprocessing and assembling data at different temporal frequencies (e.g.
-    daily, hourly), doing probabilistic masking and handling missing data.
+    attributes through embedding networks. 
+    
+    Note: One CPC input layer embeds all inputs (both dynamic and static variables). 
 
     In the simplest case, the layer takes the dictionary containing the sample information and assembles the tensor to
     be sent to the main model.
@@ -51,7 +52,7 @@ class InputLayer_CPC(nn.Module):
         # # Get embedding networks
         # self._get_embeddings(cfg)
 
-        self.total_input_size = dynamic_input_size + static_input_size
+        self.total_input_size = dynamic_input_size + static_input_size  # input dimension
 
         # ---------- One embedding layer for all inputs ----------
         self.emb_x = InputLayer_CPC.build_embedding(
@@ -97,8 +98,8 @@ class InputLayer_CPC(nn.Module):
         x_d_raw = torch.stack(
             list(sample[self._x_d_key].values()),
             dim=-1
-        )
-
+        )   # [bs, seq_length, dynamic input channels]
+        
         # # -------------------------
         # # Frequency flags
         # # -------------------------
@@ -118,25 +119,19 @@ class InputLayer_CPC(nn.Module):
         # )
         
         if self.cfg.static_input:
-        # sample["x_s"] is already [B, S]
-            x_s_raw = sample["x_s"].unsqueeze(1).expand(-1, x_d_raw.shape[1], -1)
+            x_s_raw = sample["x_s"].unsqueeze(1).expand(-1, x_d_raw.shape[1], -1)  # [bs, seq_length, static input channels]
         else:
             x_s_raw = x_d_raw.new_zeros(x_d_raw.shape[0], x_d_raw.shape[1], 0)
 
-        # print(type(sample["x_s"]))
-        # print(sample["x_s"].shape)
-        # print(sample["x_s"])
-       
         # --------------------------------
         # 3) Concat dynamic + static
         # --------------------------------
-        x_all = torch.cat([x_d_raw, x_s_raw], dim=-1)   # [bs, seq_length, dyn+sta]
+        x_all = torch.cat([x_d_raw, x_s_raw], dim=-1)   # [bs, seq_length, dyn+sta channels]
 
         # --------------------------------
         # 4) Pass through shared embedding
         # --------------------------------
-        x_emb = self.emb_x(x_all)
-
+        x_emb = self.emb_x(x_all)  # x_emb: [bs, seq_length, hidden dimension]
 
         # return torch.cat([x_d, x_s], dim=2) if assemble else {"x_d": x_d, "x_s": x_s}
         return x_emb if assemble else {"x": x_emb, "x_d": x_d_raw, "x_s": x_s_raw}
@@ -198,8 +193,7 @@ class InputLayer_CPC(nn.Module):
         ffnn_layers = []
         for i, out_dim in enumerate(spec):
             ffnn_layers.append(nn.Linear(input_dim, out_dim))
-            ffnn_layers.append(activation)
-   
+            ffnn_layers.append(activation)  # every layer is followed by a activation function
             if dropout > 0.0:
                 ffnn_layers.append(nn.Dropout(dropout)) 
 
