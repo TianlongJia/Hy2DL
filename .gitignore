@@ -179,3 +179,9 @@ cython_debug/
 # Cluster Job Output File
 *.out
 **/*out
+
+# memmap file
+*.npy
+**/*npy
+*.npz
+**/*npz
