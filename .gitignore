@@ -177,4 +177,5 @@ cython_debug/
 #.idea/
 
 # Cluster Job Output File
-.out
+*.out
+**/*out
