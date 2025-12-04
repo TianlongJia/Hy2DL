@@ -173,7 +173,20 @@ class BaseDataset(Dataset):
 
             # When working seq-seq, if we want non-overlapping blocks, we calculate their respective starting indices.
             if time_period == "training":
-              if self.cfg.unique_prediction_blocks_train:
+              # check conflict
+              if self.cfg.sample_stride is not None and self.cfg.unique_prediction_blocks_train:
+                raise ValueError(
+                "sample_stride and unique_prediction_blocks_train cannot be enabled at the same time. "
+                "Please choose only one of them."
+                )
+              
+              # Perform sampling training samples with a pre-definened stride (i.e, sample_stride)
+              if self.cfg.sample_stride is not None:
+                block_id = np.arange(len(df_ts) // self.cfg.sample_stride) * self.cfg.sample_stride + (
+                    self.cfg.sample_stride - 1)
+                valid_samples = block_id[flag[block_id]]
+              # Perform sampling training samples with a pre-definened stride (i.e, predict_last_n)
+              elif self.cfg.unique_prediction_blocks_train:
                 block_id = np.arange(len(df_ts) // self.cfg.predict_last_n) * self.cfg.predict_last_n + (
                     self.cfg.predict_last_n - 1
                 )

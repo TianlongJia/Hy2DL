@@ -610,3 +610,11 @@ class Config(object):
     def CPC_embedding(self) -> Optional[dict[str, str | float | list[int]]]:
         embedding = self._cfg.get("CPC_embedding")
         return None if embedding is None else Config._get_embedding_spec(embedding)
+    
+    @property
+    def sample_stride(self) -> int:
+        return self._cfg.get("sample_stride", 1)
+
+    @sample_stride.setter
+    def sample_stride(self, value: int):
+        self._cfg["sample_stride"] = value
