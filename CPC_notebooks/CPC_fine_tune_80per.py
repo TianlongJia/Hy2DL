@@ -320,8 +320,6 @@ if unresolved_modules:
 # In[ ]:
 
 
-# Initialize model
-model = get_model(config).to(config.device)
 
 # Initialize optimizer
 optimizer = Optimizer(cfg=config, model=model)
