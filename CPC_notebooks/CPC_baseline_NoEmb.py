@@ -47,7 +47,7 @@ color_palette = {"observed": "#377eb8", "simulated": "#4daf4a"}
 
 
 # if you have external parameter to inject in this notebook
-percent = int(os.environ.get("Percent"))
+percent = float(os.environ.get("Percent"))
 
 
 # Part 1. Initialize information
