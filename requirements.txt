@@ -2,6 +2,8 @@
 
 # This file includes the dependencies that are installed by Tianlong for testing
 
+nbconvert==7.16.6 # convert .ipynb to .py
+
 # ----  neuralhydrology  ---
 numba==0.62.1
 ruamel.yaml==0.18.16
