@@ -60,7 +60,7 @@ experiment_settings = {}
 
 # Experiment name
 # experiment_settings["experiment_name"] = "bs_256_uniqueBlocksTrue_random_0.8"
-experiment_settings["experiment_name"] = f"CPC_baseline_{percent}_NoEmb"
+experiment_settings["experiment_name"] = f"CPC_baseline_{int(percent*100)}%_NoEmb"
 # experiment_settings["experiment_name"] = "test"
 
 # paths to access the information
