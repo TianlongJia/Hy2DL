@@ -272,7 +272,7 @@ model = get_model(config).to(config.device)
 config.logger.info(f"model architecture: {model}")
 
 # Load pre-trained model from a checkpoint file (.pth)
-checkpoint_path = config.pre_trained_path / "best_model.pth"  # To do
+# checkpoint_path = config.pre_trained_path / "best_model.pth"  # To do
 checkpoint_path = config.pre_trained_path / "epoch_20.pth"  # To do
 
 
