@@ -12,10 +12,19 @@ unset LD_LIBRARY_PATH  # load cuDNN intalled along with pytorch, rather than the
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.11/bin/activate
 
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_100per.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_80per.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_60per.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_40per.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_20per.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_10per.py
-python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_5per.py
+Percent=1 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune.py
+Percent=0.8 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune.py
+Percent=0.6 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune.py
+Percent=0.4 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune.py
+Percent=0.2 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune.py
+Percent=0.1 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune.py
+Percent=0.05 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune.py
+
+
+# python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_100per.py
+# python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_80per.py
+# python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_60per.py
+# python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_40per.py
+# python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_20per.py
+# python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_10per.py
+# python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_5per.py
