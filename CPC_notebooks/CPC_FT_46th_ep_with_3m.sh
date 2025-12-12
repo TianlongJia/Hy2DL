@@ -12,13 +12,13 @@ unset LD_LIBRARY_PATH  # load cuDNN intalled along with pytorch, rather than the
 
 source /hkfs/home/haicore/iwu/qa8171/env/HY3.11/bin/activate
 
-Percent=0.05 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_41th_ep.py
-Percent=0.1 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_41th_ep.py
-Percent=0.2 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_41th_ep.py
-Percent=0.4 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_41th_ep.py
-Percent=0.6 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_41th_ep.py
-Percent=0.8 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_41th_ep.py
-Percent=1 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_41th_ep.py
+Percent=0.05 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_46th_ep_with_3m.py
+Percent=0.1 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_46th_ep_with_3m.py
+Percent=0.2 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_46th_ep_with_3m.py
+Percent=0.4 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_46th_ep_with_3m.py
+Percent=0.6 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_46th_ep_with_3m.py
+Percent=0.8 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_46th_ep_with_3m.py
+Percent=1 python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_FT_46th_ep_with_3m.py
 
 
 # python /hkfs/home/haicore/iwu/qa8171/Project/Hy2DL/CPC_notebooks/CPC_fine_tune_100per.py

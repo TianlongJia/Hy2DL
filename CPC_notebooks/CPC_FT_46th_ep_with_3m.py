@@ -40,12 +40,12 @@ from hy2dl.utils.utils import set_random_seed, upload_to_device
 color_palette = {"observed": "#377eb8", "simulated": "#4daf4a"}
 
 
-# In[2]:
+# In[ ]:
 
 
 # if you have external parameter to inject in this notebook
 percent = float(os.environ.get("Percent"))
-# percent = 0.5
+# percent = 0.05
 
 
 # Part 1. Initialize information
@@ -58,7 +58,7 @@ experiment_settings = {}
 
 # Experiment name
 # experiment_settings["experiment_name"] = "bs_256_uniqueBlocksTrue_random_0.8"
-experiment_settings["experiment_name"] = f"CPC_FT_41th_ep_with_{int(percent*100)}%"
+experiment_settings["experiment_name"] = f"CPC_FT_46th_ep_with_3m_{int(percent*100)}%"
 
 # paths to access the information
 experiment_settings["path_data"] = "../data/CAMELS_DE"
@@ -103,7 +103,8 @@ experiment_settings["static_input"] = [
 
 # # # For SSL experiment 
 # I used ["1970-10-01", "1995-12-31"] for pre-training
-experiment_settings["training_period"] = ["1998-12-31", "1999-12-31"]  # 100% fine-tune (1 years)
+# experiment_settings["training_period"] = ["1998-12-31", "1999-12-31"]  # 100% fine-tune (1 years)
+experiment_settings["training_period"] = ["1999-9-30", "1999-12-31"]  # 100% fine-tune (3 months)
 experiment_settings["validation_period"] = ["1965-10-01", "1970-09-30"]  # validation (5 years)
 experiment_settings["testing_period"] = ["2000-01-01", "2020-12-31"]  # test (20 years)
 
@@ -111,7 +112,7 @@ experiment_settings["testing_period"] = ["2000-01-01", "2020-12-31"]  # test (20
 experiment_settings["hidden_size"] = 128    # 128
 experiment_settings["batch_size_training"] = 256    # original: 256
 experiment_settings["batch_size_evaluation"] = 1024 # original: 1024
-experiment_settings["epochs"] = 20  # 20
+experiment_settings["epochs"] = 10  # 20
 experiment_settings["dropout_rate"] = 0.4
 experiment_settings["learning_rate"] = 0.001
 experiment_settings["steplr_step_size"] = 10
@@ -274,7 +275,7 @@ config.logger.info(f"model architecture: {model}")
 
 # Load pre-trained model from a checkpoint file (.pth)
 # checkpoint_path = config.pre_trained_path / "best_model.pth"  # To do
-checkpoint_path = config.pre_trained_path / "epoch_41.pth"  # To do
+checkpoint_path = config.pre_trained_path / "epoch_46.pth"  # To do
 
 
 config.logger.info(f"Loaded pre-trained weights from checkpoint {checkpoint_path}")

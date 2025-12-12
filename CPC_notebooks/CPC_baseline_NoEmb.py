@@ -11,7 +11,7 @@
 
 # # Config initialization
 
-# In[ ]:
+# In[1]:
 
 
 # Import necessary packages
@@ -48,6 +48,7 @@ color_palette = {"observed": "#377eb8", "simulated": "#4daf4a"}
 
 # if you have external parameter to inject in this notebook
 percent = float(os.environ.get("Percent"))
+# percent = 0.05
 
 
 # Part 1. Initialize information
@@ -60,7 +61,7 @@ experiment_settings = {}
 
 # Experiment name
 # experiment_settings["experiment_name"] = "bs_256_uniqueBlocksTrue_random_0.8"
-experiment_settings["experiment_name"] = f"CPC_baseline_{int(percent*100)}%_NoEmb"
+experiment_settings["experiment_name"] = f"CPC_bs_3m_{int(percent*100)}%_NoEmb"
 # experiment_settings["experiment_name"] = "test"
 
 # paths to access the information
@@ -106,7 +107,8 @@ experiment_settings["static_input"] = [
 
 # # # For SSL experiment 
 # I used ["1970-10-01", "1995-12-31"] for pre-training
-experiment_settings["training_period"] = ["1998-12-31", "1999-12-31"]  # 100% fine-tune (1 years)
+# experiment_settings["training_period"] = ["1998-12-31", "1999-12-31"]  # 100% fine-tune (1 years)
+experiment_settings["training_period"] = ["1999-9-30", "1999-12-31"]  # 100% fine-tune (3 months)
 experiment_settings["validation_period"] = ["1965-10-01", "1970-09-30"]  # validation (5 years)
 experiment_settings["testing_period"] = ["2000-01-01", "2020-12-31"]  # test (20 years)
 
@@ -114,7 +116,7 @@ experiment_settings["testing_period"] = ["2000-01-01", "2020-12-31"]  # test (20
 experiment_settings["hidden_size"] = 128
 experiment_settings["batch_size_training"] = 256 # 256    
 experiment_settings["batch_size_evaluation"] = 1024 
-experiment_settings["epochs"] = 20  # 20
+experiment_settings["epochs"] = 10  # 20
 experiment_settings["dropout_rate"] = 0.4
 experiment_settings["learning_rate"] = 0.001
 experiment_settings["steplr_step_size"] = 10
@@ -142,7 +144,7 @@ experiment_settings["model"] = "CudaLSTM"   # use it for baseline without embedd
 experiment_settings["initial_forget_bias"] = 3.0
 
 
-# In[3]:
+# In[4]:
 
 
 # Read experiment settings
@@ -155,7 +157,7 @@ set_random_seed(cfg=config)
 
 # # Create training datasets and dataloaders
 
-# In[ ]:
+# In[5]:
 
 
 from torch.utils.data import SubsetRandomSampler
